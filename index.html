@@ -39,6 +39,25 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 .investment-result-grid .metric{padding:14px;border:1px solid #ddd;border-radius:10px}
 .investment-result-grid .metric b{display:block;margin-top:5px;font-size:1.08rem}
 @media(max-width:600px){header h1{font-size:18px}main{margin:10px auto}.card{padding:14px}}
+.home-card{align-items:flex-start}
+.home-card-icon{width:42px;height:42px;border-radius:11px;background:#e8eef6;color:#17365d;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.home-card-icon svg{width:23px;height:23px}
+.print-only{display:none}
+.print-header{display:none}
+@media print{
+ nav,.hero,.home-grid,.task-selector,.grid,.btn,.actions,#rateEvents,#paymentEvents,[data-analysis-field]>h3{display:none!important}
+ .print-only{display:block!important}
+ .print-header{display:block!important;background:#17365d;color:#fff;padding:12px 16px;border-radius:8px;margin-bottom:14px}
+ .print-header h2{color:#fff;margin:0 0 4px;font-size:17px}
+ .print-header div{font-size:11px;opacity:.9}
+ .table-wrap{max-height:none!important;overflow:visible!important}
+ table{font-size:10.5px}
+ thead{display:table-header-group}
+ tr{page-break-inside:avoid}
+ .card{box-shadow:none;border:1px solid #ccc;padding:8px}
+ main{margin:0;padding:0;max-width:100%}
+ body{background:#fff}
+}
 </style>
 
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -61,6 +80,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 <button class="nav-btn" data-page="investments">Investments</button>
 </nav>
 <main>
+<div id="printHeader" class="print-only"></div>
 
 <section id="home" class="page">
   <div class="hero">
@@ -68,11 +88,11 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
     <p>Calculate and analyse loan repayments from one place.</p>
   </div>
   <div class="home-grid">
-    <button class="home-card" onclick="showPage('calculator')"><strong>Loan Calculator</strong><span>Choose a repayment type and calculate EMI, principal, rate or tenure.</span></button>
-    <button class="home-card" onclick="showPage('schedule')"><strong>Repayment Schedule</strong><span>View the complete amortization schedule for your loan.</span></button>
-    <button class="home-card" onclick="showPage('analyzer')"><strong>Loan Analyzer</strong><span>Analyse rate changes, EMI resets, prepayments and moratoriums.</span></button>
-    <button class="home-card" onclick="showPage('saved')"><strong>Saved Loans</strong><span>Revisit loans you've calculated and saved earlier.</span></button>
-    <button class="home-card" onclick="showPage('investments')"><strong>Investment Calculators</strong><span>Mutual fund Lumpsum, SIP, SWP, FD and RD.</span></button>
+    <button class="home-card" onclick="showPage('calculator')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="15.01"/><line x1="8" y1="19" x2="8" y2="19.01"/><line x1="12" y1="19" x2="12" y2="19.01"/><line x1="16" y1="19" x2="16" y2="19.01"/></svg></span><strong>Loan Calculator</strong><span>Choose a repayment type and calculate EMI, principal, rate or tenure.</span></button>
+    <button class="home-card" onclick="showPage('schedule')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="14" x2="21" y2="14"/><line x1="9" y1="9" x2="9" y2="20"/><line x1="15" y1="9" x2="15" y2="20"/></svg></span><strong>Repayment Schedule</strong><span>View the complete amortization schedule for your loan.</span></button>
+    <button class="home-card" onclick="showPage('analyzer')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="20.5" y2="20.5"/><polyline points="7.5 11.5 9.5 9 11 10.5 13.5 7.5"/></svg></span><strong>Loan Analyzer</strong><span>Analyse rate changes, EMI resets, prepayments and moratoriums.</span></button>
+    <button class="home-card" onclick="showPage('saved')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v16l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg></span><strong>Saved Loans</strong><span>Revisit loans you've calculated and saved earlier.</span></button>
+    <button class="home-card" onclick="showPage('investments')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="14 6 21 6 21 13"/></svg></span><strong>Investment Calculators</strong><span>Mutual fund Lumpsum, SIP, SWP, FD and RD.</span></button>
   </div>
 </section>
 
@@ -709,56 +729,237 @@ document.getElementById('analysisTable').innerHTML=h+'</tbody>';
 
 /* ===================== Exports ===================== */
 function safeFileName(s){return (s||'file').replace(/[^a-z0-9_\-]+/gi,'_')}
-
-/* ---- Shared professional PDF report styling ---- */
-function pdfHeader(doc,title,subtitle){
- const pageWidth=doc.internal.pageSize.getWidth();
- doc.setFillColor(23,54,93);
- doc.rect(0,0,pageWidth,22,'F');
- doc.setTextColor(255,255,255);
- doc.setFont(undefined,'bold');doc.setFontSize(16);
- doc.text(title,10,13);
- doc.setFont(undefined,'normal');doc.setFontSize(9);
- doc.text(subtitle,10,19);
- doc.setTextColor(31,41,55);
-}
-function pdfMetricCards(doc,items,startY){
- const pageWidth=doc.internal.pageSize.getWidth();
- const margin=10,gap=4,cols=items.length>6?5:3,cardH=14;
- const cardW=(pageWidth-margin*2-gap*(cols-1))/cols;
- let y=startY;
- items.forEach((item,i)=>{
-  const col=i%cols;
-  if(col===0&&i!==0)y+=cardH+gap;
-  const x=margin+col*(cardW+gap);
-  doc.setFillColor(247,249,252);doc.setDrawColor(219,226,234);
-  doc.roundedRect(x,y,cardW,cardH,1.4,1.4,'FD');
-  doc.setFontSize(7);doc.setTextColor(102,112,133);doc.setFont(undefined,'normal');
-  doc.text(String(item[0]),x+3,y+5.2);
-  doc.setFontSize(9.2);doc.setTextColor(23,54,93);doc.setFont(undefined,'bold');
-  doc.text(String(item[1]),x+3,y+11);
-  doc.setFont(undefined,'normal');
- });
- const rows=Math.ceil(items.length/cols);
- return startY+rows*(cardH+gap);
-}
-function pdfFooter(doc){
- const pageCount=doc.internal.getNumberOfPages();
- const genDate='Generated on '+new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
- for(let i=1;i<=pageCount;i++){
-  doc.setPage(i);
-  const w=doc.internal.pageSize.getWidth(),h=doc.internal.pageSize.getHeight();
-  doc.setFontSize(7.5);doc.setTextColor(120,130,145);
-  doc.text(genDate,10,h-6);
-  doc.text('Page '+i+' of '+pageCount,w-10,h-6,{align:'right'});
- }
-}
-
+function round2(n){return Math.round((n||0)*100)/100}
 function downloadBlob(blob, filename){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
-function exportSchedulePDF(){if(!schedule.length){alert('Calculate a loan first.');return}const old=document.title;document.title='Loan Amortization Schedule';window.print();document.title=old}
-function exportScheduleExcel(){if(!schedule.length){alert('Calculate a loan first.');return}const summary=[['Loan Amortization Schedule'],[],['Principal',loan.principal],[loan.emiLabel||'EMI',loan.emi],['Interest Rate (%)',loan.annualRate],['Tenure (Months)',loan.months],['Start Date',loan.startDate],['Frequency',loan.frequency],[]];const rows=[['No.','Due Date','Opening Balance','Payment','Principal','Interest','Closing Balance'],...schedule.map(x=>[x.no,x.date,x.opening,x.emi,x.principal,x.interest,x.closing])];const all=summary.concat(rows),esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');const html='<html><head><meta charset="UTF-8"></head><body><table border="1">'+all.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</table></body></html>';downloadBlob(new Blob([html],{type:'application/vnd.ms-excel'}),safeFileName('Loan_Amortization_'+(loan.startDate||'Schedule'))+'.xls')}
-function exportAnalysisPDF(){if(!window.analysis||!window.analysis.rows||!window.analysis.rows.length){alert('Run the repayment analysis first.');return}const old=document.title;document.title='Loan Repayment & Rate-Change Analysis';window.print();document.title=old}
-function exportAnalysisExcel(){if(!window.analysis||!window.analysis.rows||!window.analysis.rows.length){alert('Run the repayment analysis first.');return}const a=window.analysis,rows=a.rows;const summary=[['Loan Repayment & Rate-Change Analysis'],[],['Principal',a.P],['Initial Rate (%)',a.initialRate],['Original EMI',a.EMI],['Original Tenure (Months)',a.original],['Start Date',a.start],['Original Maturity',addMonths(a.start,a.original)],['Projected Maturity',rows[rows.length-1].date],['Additional EMIs',Math.max(0,rows.length-a.original)],['Additional Principal Paid',rows.reduce((x,r)=>x+r.extra,0)],['Total Interest',rows.reduce((x,r)=>x+r.interest,0)],[],['Rate Changes'],['Effective Date','New Rate (%)'],...a.rates.map(x=>[x.date,x.rate]),[],['Additional Principal Payments'],['Payment Date','Amount'],...a.extras.map(x=>[x.date,x.amount]),[]];const data=[['EMI','Date','Opening','Rate','EMI','Principal','Interest','Extra Principal','Closing'],...rows.map(x=>[x.no,x.date,x.opening,x.rate,x.emi,x.principal,x.interest,x.extra,x.closing])];const all=summary.concat(data),esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');const html='<html><head><meta charset="UTF-8"></head><body><table border="1">'+all.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('')+'</table></body></html>';downloadBlob(new Blob([html],{type:'application/vnd.ms-excel'}),'Loan_Repayment_Analysis.xls')}
+
+/* ---- PDF export: uses the device's native Print / Save-as-PDF feature.
+   A dedicated print stylesheet (see @media print above) hides the app chrome
+   and removes the schedule table's on-screen scroll clipping so the FULL
+   table is sent to the printer/PDF, not just the visible portion. ---- */
+function buildPrintHeader(title){
+ const now=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+ return `<div class="print-header"><h2>${title}</h2><div>Generated on ${now}</div></div>`;
+}
+function exportSchedulePDF(){
+ if(!schedule.length){alert('Calculate a loan first.');return}
+ const old=document.title;
+ document.title=safeFileName('Loan_Amortization_'+(loan.startDate||'Schedule'));
+ document.getElementById('printHeader').innerHTML=buildPrintHeader('Loan Amortization Schedule');
+ window.print();
+ document.title=old;
+ document.getElementById('printHeader').innerHTML='';
+}
+function exportAnalysisPDF(){
+ if(!window.analysis||!window.analysis.rows||!window.analysis.rows.length){alert('Run the repayment analysis first.');return}
+ const old=document.title;
+ document.title='Loan_Repayment_Analysis';
+ document.getElementById('printHeader').innerHTML=buildPrintHeader('Loan Repayment & Rate-Change Analysis');
+ window.print();
+ document.title=old;
+ document.getElementById('printHeader').innerHTML='';
+}
+
+/* ---- XLSX (genuine Office Open XML, formula-enabled) generator.
+   Written in plain JS with no external library/CDN so the exported file is a
+   real .xlsx that opens correctly (with live formulas) in Excel, Google
+   Sheets and WPS on Android -- unlike an HTML table saved with a .xls
+   extension, which many mobile apps refuse to open or show as empty. ---- */
+function crc32(bytes){
+ if(!crc32.table){
+  const t=[];
+  for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++){c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1)}t[n]=c>>>0}
+  crc32.table=t;
+ }
+ let crc=0xFFFFFFFF;
+ for(let i=0;i<bytes.length;i++)crc=(crc>>>8)^crc32.table[(crc^bytes[i])&0xFF];
+ return (crc^0xFFFFFFFF)>>>0;
+}
+function u16b(n){return [n&0xFF,(n>>8)&0xFF]}
+function u32b(n){return [n&0xFF,(n>>8)&0xFF,(n>>16)&0xFF,(n>>>24)&0xFF]}
+function zipStore(files){
+ const encoder=new TextEncoder();
+ let offset=0, localChunks=[], centralChunks=[];
+ files.forEach(f=>{
+  const nameBytes=encoder.encode(f.name), data=f.data, crc=crc32(data);
+  const lh=new Uint8Array([...u32b(0x04034b50),...u16b(20),...u16b(0),...u16b(0),...u16b(0),...u16b(0x21),...u32b(crc),...u32b(data.length),...u32b(data.length),...u16b(nameBytes.length),...u16b(0)]);
+  const local=new Uint8Array(lh.length+nameBytes.length+data.length);
+  local.set(lh,0);local.set(nameBytes,lh.length);local.set(data,lh.length+nameBytes.length);
+  localChunks.push(local);
+  const ch=new Uint8Array([...u32b(0x02014b50),...u16b(20),...u16b(20),...u16b(0),...u16b(0),...u16b(0),...u16b(0x21),...u32b(crc),...u32b(data.length),...u32b(data.length),...u16b(nameBytes.length),...u16b(0),...u16b(0),...u16b(0),...u16b(0),...u32b(0),...u32b(offset)]);
+  const central=new Uint8Array(ch.length+nameBytes.length);
+  central.set(ch,0);central.set(nameBytes,ch.length);
+  centralChunks.push(central);
+  offset+=local.length;
+ });
+ const centralStart=offset;
+ let centralSize=0; centralChunks.forEach(c=>centralSize+=c.length);
+ const eocd=new Uint8Array([...u32b(0x06054b50),...u16b(0),...u16b(0),...u16b(files.length),...u16b(files.length),...u32b(centralSize),...u32b(centralStart),...u16b(0)]);
+ const out=new Uint8Array(offset+centralSize+eocd.length);
+ let pos=0;
+ localChunks.forEach(c=>{out.set(c,pos);pos+=c.length});
+ centralChunks.forEach(c=>{out.set(c,pos);pos+=c.length});
+ out.set(eocd,pos);
+ return out;
+}
+function xmlEsc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function colLetter(n){let s='';while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s}
+function excelSerial(dateStr){if(!dateStr)return 0;const d=new Date(dateStr+'T00:00:00');const epoch=Date.UTC(1899,11,30);return Math.round((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-epoch)/86400000)}
+const XLSX_STYLE={PLAIN:0,HEADER:1,CURRENCY:2,DATE:3,TITLE:4,LABEL:5,BORDER:6};
+function xc_text(col,row,text,style){return `<c r="${col}${row}"${style?` s="${style}"`:''} t="inlineStr"><is><t xml:space="preserve">${xmlEsc(text)}</t></is></c>`}
+function xc_num(col,row,value,style){const v=Number.isFinite(value)?value:0;return `<c r="${col}${row}"${style?` s="${style}"`:''}><v>${v}</v></c>`}
+function xc_date(col,row,dateStr,style){return `<c r="${col}${row}" s="${style||XLSX_STYLE.DATE}"><v>${excelSerial(dateStr)}</v></c>`}
+function xc_formula(col,row,formula,cachedValue,style){const v=Number.isFinite(cachedValue)?cachedValue:0;return `<c r="${col}${row}"${style?` s="${style}"`:''}><f>${xmlEsc(formula)}</f><v>${v}</v></c>`}
+function xlsxStylesXml(){
+ return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+ '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+ '<numFmts count="2"><numFmt numFmtId="164" formatCode="#,##0.00"/><numFmt numFmtId="165" formatCode="dd-mmm-yyyy"/></numFmts>'+
+ '<fonts count="4"><font><sz val="11"/><name val="Calibri"/></font>'+
+ '<font><b/><sz val="10.5"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font>'+
+ '<font><b/><sz val="14"/><color rgb="FF17365D"/><name val="Calibri"/></font>'+
+ '<font><b/><sz val="11"/><name val="Calibri"/></font></fonts>'+
+ '<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF17365D"/><bgColor indexed="64"/></patternFill></fill></fills>'+
+ '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FFB9C2CE"/></left><right style="thin"><color rgb="FFB9C2CE"/></right><top style="thin"><color rgb="FFB9C2CE"/></top><bottom style="thin"><color rgb="FFB9C2CE"/></bottom></border></borders>'+
+ '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+ '<cellXfs count="7">'+
+ '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'+
+ '<xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
+ '<xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/>'+
+ '<xf numFmtId="165" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1"/>'+
+ '<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>'+
+ '<xf numFmtId="0" fontId="3" fillId="0" borderId="0" xfId="0" applyFont="1"/>'+
+ '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf>'+
+ '</cellXfs>'+
+ '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'+
+ '</styleSheet>';
+}
+function buildXlsxBlob(sheetName, sheetDataXml, numCols, numRows, colWidths){
+ const encoder=new TextEncoder();
+ const lastCol=colLetter(numCols);
+ const colsXml='<cols>'+colWidths.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('')+'</cols>';
+ const sheetXml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><dimension ref="A1:${lastCol}${numRows}"/><sheetViews><sheetView workbookViewId="0"/></sheetViews>${colsXml}<sheetData>${sheetDataXml}</sheetData></worksheet>`;
+ const contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>';
+ const rootRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+ const workbookXml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><calcPr calcId="0" fullCalcOnLoad="1"/><sheets><sheet name="${xmlEsc(sheetName)}" sheetId="1" r:id="rId1"/></sheets></workbook>`;
+ const workbookRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
+ const files=[
+  {name:'[Content_Types].xml',data:encoder.encode(contentTypes)},
+  {name:'_rels/.rels',data:encoder.encode(rootRels)},
+  {name:'xl/workbook.xml',data:encoder.encode(workbookXml)},
+  {name:'xl/_rels/workbook.xml.rels',data:encoder.encode(workbookRels)},
+  {name:'xl/styles.xml',data:encoder.encode(xlsxStylesXml())},
+  {name:'xl/worksheets/sheet1.xml',data:encoder.encode(sheetXml)}
+ ];
+ return new Blob([zipStore(files)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+
+/* ---- Schedule (Loan Calculator) Excel export ---- */
+function buildScheduleSheetRows(){
+ const S=XLSX_STYLE, out=[];
+ function row(r,cellsXml){out.push(`<row r="${r}">${cellsXml}</row>`)}
+ row(1, xc_text('A',1,'Loan Amortization Schedule',S.TITLE));
+ row(3, xc_text('A',3,'Principal',S.LABEL)+xc_num('B',3,round2(loan.principal),S.CURRENCY));
+ row(4, xc_text('A',4,loan.emiLabel||'EMI',S.LABEL)+xc_num('B',4,round2(loan.emi),S.CURRENCY));
+ row(5, xc_text('A',5,'Interest Rate (% p.a.)',S.LABEL)+xc_num('B',5,loan.annualRate));
+ const ppy=periodsPerYear(loan.frequency)||12, periodicRate=(loan.annualRate||0)/100/ppy;
+ row(6, xc_text('A',6,'Periodic Rate (used in formulas below)',S.LABEL)+xc_num('B',6,periodicRate));
+ row(7, xc_text('A',7,'Tenure (Months)',S.LABEL)+xc_num('B',7,loan.months));
+ row(8, xc_text('A',8,'Start Date',S.LABEL)+xc_date('B',8,loan.startDate));
+ row(9, xc_text('A',9,'Frequency',S.LABEL)+xc_text('B',9,loan.frequency));
+ const headerRow=11;
+ row(headerRow, ['No.','Due Date','Opening Balance','Payment','Principal','Interest','Closing Balance'].map((h,i)=>xc_text(colLetter(i+1),headerRow,h,S.HEADER)).join(''));
+ const useRateFormula=!['seasonal','bullet'].includes(loan.repaymentType);
+ let r=headerRow+1;
+ schedule.forEach((x,i)=>{
+  const cA=xc_num('A',r,x.no,S.BORDER);
+  const cB=xc_date('B',r,x.date);
+  const cC = i===0 ? xc_formula('C',r,'B3',round2(x.opening),S.CURRENCY) : xc_formula('C',r,`G${r-1}`,round2(x.opening),S.CURRENCY);
+  const cD=xc_num('D',r,round2(x.emi),S.CURRENCY);
+  let cE,cF;
+  if(useRateFormula){
+   cF=xc_formula('F',r,`C${r}*$B$6`,round2(x.interest),S.CURRENCY);
+   cE=xc_formula('E',r,`D${r}-F${r}`,round2(x.principal),S.CURRENCY);
+  }else{
+   cF=xc_num('F',r,round2(x.interest),S.CURRENCY);
+   cE=xc_num('E',r,round2(x.principal),S.CURRENCY);
+  }
+  const cG=xc_formula('G',r,`C${r}-E${r}`,round2(x.closing),S.CURRENCY);
+  row(r, cA+cB+cC+cD+cE+cF+cG);
+  r++;
+ });
+ const firstData=headerRow+1, lastData=r-1, totalRow=r;
+ row(totalRow, xc_text('B',totalRow,'Total',S.LABEL)+
+  xc_formula('D',totalRow,`SUM(D${firstData}:D${lastData})`,schedule.reduce((s,x)=>s+x.emi,0),S.CURRENCY)+
+  xc_formula('E',totalRow,`SUM(E${firstData}:E${lastData})`,schedule.reduce((s,x)=>s+x.principal,0),S.CURRENCY)+
+  xc_formula('F',totalRow,`SUM(F${firstData}:F${lastData})`,schedule.reduce((s,x)=>s+x.interest,0),S.CURRENCY));
+ return {xml:out.join(''), lastRow:totalRow};
+}
+function exportScheduleExcel(){
+ if(!schedule.length){alert('Calculate a loan first.');return}
+ const {xml,lastRow}=buildScheduleSheetRows();
+ const blob=buildXlsxBlob('Amortization Schedule', xml, 7, lastRow, [7,13,15,13,13,13,15]);
+ downloadBlob(blob, safeFileName('Loan_Amortization_'+(loan.startDate||'Schedule'))+'.xlsx');
+}
+
+/* ---- Analyzer Excel export ---- */
+function buildAnalysisSheetRows(){
+ const S=XLSX_STYLE, out=[], a=window.analysis, rows=a.rows;
+ function row(r,cellsXml){out.push(`<row r="${r}">${cellsXml}</row>`)}
+ row(1, xc_text('A',1,'Loan Repayment & Rate-Change Analysis',S.TITLE));
+ const originalEnd=addMonths(a.start,a.original), finalDate=rows.length?rows[rows.length-1].date:originalEnd;
+ const additional=Math.max(0,rows.length-a.original);
+ const summary=[
+  ['Principal',a.P,'num'],['Initial Rate (% p.a.)',a.initialRate,'num'],['Original EMI',a.EMI,'currency'],
+  ['Original Tenure (Months)',a.original,'num'],['Start Date',a.start,'date'],['Original Maturity',originalEnd,'date'],
+  ['Projected Maturity',finalDate,'date'],['Additional EMIs',additional,'num']
+ ];
+ let r=3;
+ summary.forEach(([label,value,type])=>{
+  const cell = type==='date'?xc_date('B',r,value):type==='currency'?xc_num('B',r,round2(value),S.CURRENCY):xc_num('B',r,value);
+  row(r, xc_text('A',r,label,S.LABEL)+cell); r++;
+ });
+ r++;
+ if(a.rates&&a.rates.length){
+  row(r, xc_text('A',r,'Rate Changes',S.LABEL)); r++;
+  row(r, xc_text('A',r,'Effective Date',S.HEADER)+xc_text('B',r,'New Rate (%)',S.HEADER)); r++;
+  a.rates.forEach(x=>{row(r, xc_date('A',r,x.date)+xc_num('B',r,x.rate,S.BORDER)); r++});
+  r++;
+ }
+ if(a.extras&&a.extras.length){
+  row(r, xc_text('A',r,'Additional Principal Payments',S.LABEL)); r++;
+  row(r, xc_text('A',r,'Payment Date',S.HEADER)+xc_text('B',r,'Amount',S.HEADER)); r++;
+  a.extras.forEach(x=>{row(r, xc_date('A',r,x.date)+xc_num('B',r,round2(x.amount),S.CURRENCY)); r++});
+  r++;
+ }
+ const headerRow=r;
+ row(headerRow, ['EMI No.','Date','Opening Balance','Rate (%)','EMI','Principal','Interest','Extra Principal','Closing Balance'].map((h,i)=>xc_text(colLetter(i+1),headerRow,h,S.HEADER)).join(''));
+ let dr=headerRow+1;
+ rows.forEach((x,i)=>{
+  const cA=xc_num('A',dr,x.no,S.BORDER);
+  const cB=xc_date('B',dr,x.date);
+  const cC = i===0 ? xc_formula('C',dr,'B3',round2(x.opening),S.CURRENCY) : xc_formula('C',dr,`I${dr-1}`,round2(x.opening),S.CURRENCY);
+  const cD=xc_num('D',dr,x.rate,S.BORDER);
+  const cE=xc_num('E',dr,round2(x.emi),S.CURRENCY);
+  const cF=xc_num('F',dr,round2(x.principal),S.CURRENCY);
+  const cG=xc_num('G',dr,round2(x.interest),S.CURRENCY);
+  const cH=xc_num('H',dr,round2(x.extra||0),S.CURRENCY);
+  const cI = x.capitalizedInterest ? xc_num('I',dr,round2(x.closing),S.CURRENCY) : xc_formula('I',dr,`C${dr}-F${dr}-H${dr}`,round2(x.closing),S.CURRENCY);
+  row(dr, cA+cB+cC+cD+cE+cF+cG+cH+cI);
+  dr++;
+ });
+ const firstData=headerRow+1, lastData=dr-1, totalRow=dr;
+ row(totalRow, xc_text('B',totalRow,'Total',S.LABEL)+
+  xc_formula('E',totalRow,`SUM(E${firstData}:E${lastData})`,rows.reduce((s,x)=>s+x.emi,0),S.CURRENCY)+
+  xc_formula('F',totalRow,`SUM(F${firstData}:F${lastData})`,rows.reduce((s,x)=>s+x.principal,0),S.CURRENCY)+
+  xc_formula('G',totalRow,`SUM(G${firstData}:G${lastData})`,rows.reduce((s,x)=>s+x.interest,0),S.CURRENCY)+
+  xc_formula('H',totalRow,`SUM(H${firstData}:H${lastData})`,rows.reduce((s,x)=>s+(x.extra||0),0),S.CURRENCY));
+ return {xml:out.join(''), lastRow:totalRow};
+}
+function exportAnalysisExcel(){
+ if(!window.analysis||!window.analysis.rows||!window.analysis.rows.length){alert('Run the repayment analysis first.');return}
+ const {xml,lastRow}=buildAnalysisSheetRows();
+ const blob=buildXlsxBlob('Repayment Analysis', xml, 9, lastRow, [8,13,15,10,13,13,13,15,15]);
+ downloadBlob(blob, 'Loan_Repayment_Analysis.xlsx');
+}
 
 /* ===================== Saved loans ===================== */
 function getSavedLoans(){return JSON.parse(localStorage.getItem('savedLoans')||'[]')}
