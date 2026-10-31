@@ -6,8 +6,9 @@
 <title>Loan Calculator & Repayment Analyzer</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#1f2937}
-header{background:#17365d;color:#fff;padding:18px 22px}header h1{margin:0;font-size:22px}
+header{background:#17365d;color:#fff;padding:14px 22px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:900}header h1{margin:0;font-size:22px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 nav{display:flex;gap:8px;flex-wrap:wrap;background:#fff;padding:10px 16px;border-bottom:1px solid #ddd}
+.menu-btn,.nav-head,#navOverlay{display:none}
 nav button{border:0;border-radius:7px;padding:10px 14px;background:#e8eef6;color:#17365d;font-weight:600;cursor:pointer}
 nav button.active{background:#17365d;color:#fff}
 .btn{border:0;border-radius:7px;padding:10px 14px;background:#e8eef6;color:#17365d;font-weight:600;cursor:pointer}
@@ -39,13 +40,49 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 .investment-result-grid .metric{padding:14px;border:1px solid #ddd;border-radius:10px}
 .investment-result-grid .metric b{display:block;margin-top:5px;font-size:1.08rem}
 @media(max-width:600px){header h1{font-size:18px}main{margin:10px auto}.card{padding:14px}}
+/* ---- Home EMI calculator ---- */
+.card-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.card-title h2{margin:0;font-size:19px}
+.link-btn{background:none;border:0;color:#17365d;font-weight:600;font-size:13px;cursor:pointer;padding:6px 4px;text-decoration:underline}
+.span2{grid-column:1/-1}.btn-cell{display:flex;align-items:flex-end}.btn-cell .btn{width:100%;height:42px}
+.inline2{display:flex;gap:6px}.inline2 input{flex:1;min-width:0}.inline2 select{width:80px;flex:none;padding:9px 2px}
+.hcards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 8px}
+.hcards .metric{padding:10px}.hcards .metric span{font-size:11.5px;color:#475467}.hcards .metric b{font-size:17px;margin-top:3px}
+.hcards .metric.hi{background:#e8eef6;border:1px solid #17365d33}
+table.cmp{font-size:11.5px}table.cmp th,table.cmp td{padding:5px 3px;text-align:right}table.cmp th:first-child,table.cmp td:first-child{text-align:left;white-space:normal;width:54px;line-height:1.2}
+table.cmp th:nth-child(2),table.cmp td:nth-child(2){text-align:right}
+table.cmp .sel{background:#e8eef6;font-weight:700}
+.moratorium-row td{background:#fff8eb}
+.menu-btn svg{width:24px;height:24px}
+@media(max-width:768px){
+ .menu-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:8px;background:#ffffff22;color:#fff;cursor:pointer;flex:none}
+ header{padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px))}header h1{font-size:18px}
+ nav{position:fixed;top:0;left:0;bottom:0;width:80%;max-width:300px;flex-direction:column;flex-wrap:nowrap;gap:4px;padding:0 0 16px;z-index:1001;transform:translateX(-105%);transition:transform .25s ease;box-shadow:4px 0 18px #0004;overflow-y:auto;border-bottom:0}
+ nav.open{transform:none}
+ .nav-head{display:flex;align-items:center;justify-content:space-between;background:#17365d;color:#fff;padding:16px 14px;padding-top:calc(16px + env(safe-area-inset-top,0px));font-weight:700;font-size:17px;margin-bottom:8px}
+ .nav-head button{background:none;border:0;color:#fff;font-size:26px;line-height:1;cursor:pointer;padding:0 6px}
+ nav .nav-btn{text-align:left;margin:0 10px;padding:13px 14px;font-size:15px}
+ #navOverlay{position:fixed;inset:0;background:#0006;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s;display:block}
+ #navOverlay.open{opacity:1;pointer-events:auto}
+}
+@media(max-width:600px){
+ main{margin:8px auto;padding:0 8px}.card{padding:12px;margin-bottom:10px}
+ h2{font-size:18px}h3{font-size:15px;margin:8px 0}
+ .grid{grid-template-columns:1fr 1fr;gap:8px}
+ label{font-size:12px;margin-bottom:3px}
+ input,select{padding:9px 8px;font-size:16px}
+ .amount-words{font-size:11px;min-height:0;margin-top:2px}
+ .actions{margin-top:10px}
+ .results{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:9px}.metric b{font-size:15px}
+ .row>*{min-width:110px}
+ .task-selector{margin-bottom:10px}.task-selector h3{margin-top:0}
+}
 .home-card{align-items:flex-start}
 .home-card-icon{width:42px;height:42px;border-radius:11px;background:#e8eef6;color:#17365d;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .home-card-icon svg{width:23px;height:23px}
 .print-only{display:none}
 .print-header{display:none}
 @media print{
- nav,.hero,.home-grid,.task-selector,.grid,.btn,.actions,#rateEvents,#paymentEvents,[data-analysis-field]>h3{display:none!important}
+ nav,.menu-btn,#navOverlay,.hero,.home-grid,.task-selector,.grid,.btn,.actions,#rateEvents,#paymentEvents,[data-analysis-field]>h3{display:none!important}
  .print-only{display:block!important}
  .print-header{display:block!important;background:#17365d;color:#fff;padding:12px 16px;border-radius:8px;margin-bottom:14px}
  .print-header h2{color:#fff;margin:0 0 4px;font-size:17px}
@@ -70,10 +107,15 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
-<header><h1>Loan Calculator & Repayment Analyzer</h1></header>
-<nav>
-<button class="nav-btn" data-page="home">Home</button>
-<button class="nav-btn" data-page="calculator">Loan Calculator</button>
+<header>
+<button class="menu-btn" aria-label="Open menu" onclick="toggleNav(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+<h1 id="pageTitle">EMI Calculator</h1>
+</header>
+<div id="navOverlay" onclick="toggleNav(false)"></div>
+<nav id="sideNav">
+<div class="nav-head"><span>Loan Calculator &amp; Analyzer</span><button aria-label="Close menu" onclick="toggleNav(false)">&times;</button></div>
+<button class="nav-btn" data-page="home">EMI Calculator</button>
+<button class="nav-btn" data-page="calculator">EMI Equation Solver</button>
 <button class="nav-btn" data-page="schedule">Repayment Schedule</button>
 <button class="nav-btn" data-page="analyzer">Loan Analyzer</button>
 <button class="nav-btn" data-page="saved">Saved Loans</button>
@@ -83,22 +125,25 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 <div id="printHeader" class="print-only"></div>
 
 <section id="home" class="page">
-  <div class="hero">
-    <h1>Loan Analysis</h1>
-    <p>Calculate and analyse loan repayments from one place.</p>
-  </div>
-  <div class="home-grid">
-    <button class="home-card" onclick="showPage('calculator')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="15.01"/><line x1="8" y1="19" x2="8" y2="19.01"/><line x1="12" y1="19" x2="12" y2="19.01"/><line x1="16" y1="19" x2="16" y2="19.01"/></svg></span><strong>Loan Calculator</strong><span>Choose a repayment type and calculate EMI, principal, rate or tenure.</span></button>
-    <button class="home-card" onclick="showPage('schedule')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="14" x2="21" y2="14"/><line x1="9" y1="9" x2="9" y2="20"/><line x1="15" y1="9" x2="15" y2="20"/></svg></span><strong>Repayment Schedule</strong><span>View the complete amortization schedule for your loan.</span></button>
-    <button class="home-card" onclick="showPage('analyzer')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="20.5" y2="20.5"/><polyline points="7.5 11.5 9.5 9 11 10.5 13.5 7.5"/></svg></span><strong>Loan Analyzer</strong><span>Analyse rate changes, EMI resets, prepayments and moratoriums.</span></button>
-    <button class="home-card" onclick="showPage('saved')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v16l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg></span><strong>Saved Loans</strong><span>Revisit loans you've calculated and saved earlier.</span></button>
-    <button class="home-card" onclick="showPage('investments')"><span class="home-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="14 6 21 6 21 13"/></svg></span><strong>Investment Calculators</strong><span>Mutual fund Lumpsum, SIP, SWP, FD and RD.</span></button>
-  </div>
+<div class="card">
+ <div class="card-title"><h2>EMI Calculator</h2><button class="link-btn" onclick="clearHome()">Clear</button></div>
+ <div class="grid">
+  <div class="span2"><label>Loan Amount (₹)</label><input id="hAmount" class="money-input" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 25,00,000"><div id="hAmountWords" class="amount-words"></div></div>
+  <div><label>Interest Rate (% p.a.)</label><input id="hRate" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 8.5"></div>
+  <div><label>Total Period</label><div class="inline2"><input id="hTenure" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 20"><select id="hUnit"><option value="years">Years</option><option value="months">Months</option></select></div></div>
+  <div><label>Moratorium (months)</label><input id="hMor" type="number" inputmode="numeric" min="0" step="1" placeholder="0 = none"></div>
+  <div><label>Interest in Moratorium</label><select id="hMorType"><option value="capitalized">Capitalised</option><option value="paid">Paid monthly</option></select></div>
+  <div class="span2"><label>Repay After Moratorium By</label><select id="hMethod"><option value="A">Higher EMI, same term</option><option value="B">Higher EMI, extended term</option><option value="C">Same EMI, extended term</option></select></div>
+  <div><label>Start Date</label><input id="hStart" type="date"></div>
+  <div class="btn-cell"><button class="btn primary" onclick="runHomeEmi()">Calculate</button></div>
+ </div>
+ <div id="hResult"></div>
+</div>
 </section>
 
 <section id="calculator" class="page">
 <div class="card task-selector">
-<h3>Repayment Type</h3>
+<h3>Repayment Type <span class="small">(Normal EMI = equation solver; other structures also available)</span></h3>
 <select id="repaymentType" onchange="onRepaymentTypeChange()">
 <option value="emi">Normal EMI</option>
 <option value="piSeparate">Principal + Interest</option>
@@ -113,15 +158,15 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 </div>
 
 <div class="card">
-<h2>Loan Calculator</h2>
+<h2>EMI Equation Solver</h2>
 <div class="grid">
-<div data-repay-type="all"><label>Principal</label><input id="principal" type="number" min="0" step="0.01" placeholder="Loan amount"><div id="principalWords" class="amount-words"></div></div>
-<div data-repay-type="emi"><label>EMI</label><input id="emi" type="number" min="0" step="0.01" placeholder="Leave blank to calculate"><div id="emiWords" class="amount-words"></div></div>
+<div data-repay-type="all"><label>Principal</label><input id="principal" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="0.01" placeholder="Loan amount"><div id="principalWords" class="amount-words"></div></div>
+<div data-repay-type="emi"><label>EMI</label><input id="emi" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="0.01" placeholder="Leave blank to calculate"><div id="emiWords" class="amount-words"></div></div>
 <div data-repay-type="all"><label>Interest Rate (% p.a.)</label><input id="rate" type="number" min="0" step="0.0001" placeholder="Leave blank to calculate"></div>
-<div data-repay-type="all"><label>Tenure</label><div class="row"><input id="tenure" type="number" min="1" step="1" placeholder="Tenure"><select id="tenureUnit"><option value="months">Months</option><option value="years">Years</option></select></div></div>
+<div data-repay-type="all"><label>Tenure</label><div class="inline2"><input id="tenure" type="number" min="1" step="1" placeholder="Tenure"><select id="tenureUnit"><option value="months">Months</option><option value="years">Years</option></select></div></div>
 <div data-repay-type="all"><label>Loan Start Date</label><input id="startDate" type="date"></div>
 <div data-repay-type="emi piSeparate interestOnly balloon stepUp stepDown"><label>Repayment Frequency</label><select id="frequency"><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="halfyearly">Half-Yearly</option><option value="yearly">Yearly</option></select></div>
-<div data-repay-type="balloon"><label>Balloon Payment Amount</label><input id="balloonAmount" type="number" min="0" step="0.01" placeholder="Lump sum due at the end"></div>
+<div data-repay-type="balloon"><label>Balloon Payment Amount</label><input id="balloonAmount" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="0.01" placeholder="Lump sum due at the end"></div>
 <div data-repay-type="stepUp stepDown"><label id="stepPercentLabel">Step-up Percentage (%)</label><input id="stepPercent" type="number" min="0" step="0.01" placeholder="e.g. 10"></div>
 <div data-repay-type="stepUp stepDown"><label>Step Interval (Months)</label><input id="stepInterval" type="number" min="1" step="1" value="12"></div>
 </div>
@@ -177,9 +222,9 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 <div class="card">
 <h2>Repayment & Rate-Change Analyzer</h2>
 <div class="grid">
-<div><label>Principal Sanctioned</label><input id="aPrincipal" type="number" min="0"><div id="aPrincipalWords" class="amount-words"></div></div>
+<div><label>Principal Sanctioned</label><input id="aPrincipal" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0"><div id="aPrincipalWords" class="amount-words"></div></div>
 <div><label>Initial Rate (% p.a.)</label><input id="aRate" type="number" min="0" step="0.0001"></div>
-<div><label>EMI (Required)</label><input id="aEmi" type="number" min="0" step="0.01"><div id="aEmiWords" class="amount-words"></div></div>
+<div><label>EMI (Required)</label><input id="aEmi" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="0.01"><div id="aEmiWords" class="amount-words"></div></div>
 <div><label>Original Tenure (Months)</label><input id="aTenure" type="number" min="1" step="1"></div>
 <div><label>Loan / EMI Start Date</label><input id="aStartDate" type="date"></div>
 <div data-analysis-field="rateChange emiReset combined"><label>EMI Change Effective Date</label><input id="emiChangeDate" type="date"><div class="small">Used when EMI is reset after a rate change.</div></div>
@@ -187,7 +232,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
 <div data-analysis-field="moratorium combined"><label>Moratorium Period (Months)</label><input id="aMorPeriod" type="number" min="0" step="1"></div>
 <div data-analysis-field="moratorium combined"><label>Moratorium Interest Treatment</label><select id="aMorType"><option value="none">No Moratorium</option><option value="serviced">Interest Serviced — Interest Only</option><option value="capitalized">Interest Capitalized</option></select></div>
 <div data-analysis-field="rateChange emiReset combined"><label>Rate Change Treatment</label><select id="rateTreatment" onchange="toggleEmiReset()"><option value="sameEmi">Keep EMI same — tenure changes</option><option value="sameTenure">Keep original tenure — EMI changes</option></select></div>
-<div data-analysis-field="rateChange emiReset combined" id="emiResetBox" style="display:none"><label>Reset EMI Amount (optional)</label><input id="resetEmi" type="number" min="0" step="1"><div class="small">If blank, the app calculates the EMI needed to finish within the original tenure from the effective date.</div></div>
+<div data-analysis-field="rateChange emiReset combined" id="emiResetBox" style="display:none"><label>Reset EMI Amount (optional)</label><input id="resetEmi" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"><div class="small">If blank, the app calculates the EMI needed to finish within the original tenure from the effective date.</div></div>
 </div>
 
 <div data-analysis-field="rateChange emiReset combined">
@@ -243,7 +288,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
     <div id="inv-lumpsum" class="inv-panel">
       <h3>Mutual Fund Lumpsum</h3>
       <div class="grid">
-        <div><label>Investment Amount</label><input id="lsAmount" type="number" min="0" step="1"></div>
+        <div><label>Investment Amount</label><input id="lsAmount" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"></div>
         <div><label>Expected Return (% p.a.)</label><input id="lsRate" type="number" min="0" step="0.01"></div>
         <div><label>Investment Period (Years)</label><input id="lsYears" type="number" min="0.1" step="0.1"></div>
       </div>
@@ -253,7 +298,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
     <div id="inv-sip" class="inv-panel" style="display:none">
       <h3>Mutual Fund SIP</h3>
       <div class="grid">
-        <div><label>Monthly SIP</label><input id="sipAmount" type="number" min="0" step="1"></div>
+        <div><label>Monthly SIP</label><input id="sipAmount" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"></div>
         <div><label>Expected Return (% p.a.)</label><input id="sipRate" type="number" min="0" step="0.01"></div>
         <div><label>Investment Period (Years)</label><input id="sipYears" type="number" min="0.1" step="0.1"></div>
         <div><label>SIP Date</label><input id="sipDate" type="number" min="1" max="31" value="1"></div>
@@ -264,9 +309,9 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
     <div id="inv-swp" class="inv-panel" style="display:none">
       <h3>Mutual Fund SWP</h3>
       <div class="grid">
-        <div><label>Initial Investment</label><input id="swpPrincipal" type="number" min="0" step="1"></div>
+        <div><label>Initial Investment</label><input id="swpPrincipal" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"></div>
         <div><label>Expected Return (% p.a.)</label><input id="swpRate" type="number" min="0" step="0.01"></div>
-        <div><label>Monthly Withdrawal</label><input id="swpAmount" type="number" min="0" step="1"></div>
+        <div><label>Monthly Withdrawal</label><input id="swpAmount" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"></div>
         <div><label>Withdrawal Period (Years)</label><input id="swpYears" type="number" min="0.1" step="0.1"></div>
       </div>
       <div class="actions"><button class="btn primary" onclick="calcSwp()">Calculate</button><button class="btn danger" onclick="clearInvestment()">Clear</button></div>
@@ -275,7 +320,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
     <div id="inv-fd" class="inv-panel" style="display:none">
       <h3>Bank Fixed Deposit</h3>
       <div class="grid">
-        <div><label>Deposit Amount</label><input id="fdPrincipal" type="number" min="0" step="1"></div>
+        <div><label>Deposit Amount</label><input id="fdPrincipal" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"></div>
         <div><label>Interest Rate (% p.a.)</label><input id="fdRate" type="number" min="0" step="0.01"></div>
         <div><label>Tenure (Years)</label><input id="fdYears" type="number" min="0.01" step="0.01"></div>
         <div><label>Compounding</label>
@@ -288,7 +333,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{p
     <div id="inv-rd" class="inv-panel" style="display:none">
       <h3>Bank Recurring Deposit</h3>
       <div class="grid">
-        <div><label>Monthly Deposit</label><input id="rdAmount" type="number" min="0" step="1"></div>
+        <div><label>Monthly Deposit</label><input id="rdAmount" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="1"></div>
         <div><label>Interest Rate (% p.a.)</label><input id="rdRate" type="number" min="0" step="0.01"></div>
         <div><label>Tenure (Months)</label><input id="rdMonths" type="number" min="1" step="1"></div>
       </div>
@@ -313,7 +358,27 @@ let schedule=[];
 const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(n||0);
 const fmtDate=d=>{if(!d)return '';let x=new Date(d+'T00:00:00');return x.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})};
 const todayISO=()=>new Date().toISOString().slice(0,10);
-function val(id){let x=parseFloat(document.getElementById(id).value);return Number.isFinite(x)?x:null}
+function parseNum(s){return parseFloat(String(s==null?'':s).replace(/,/g,''))}
+function val(id){let x=parseNum(document.getElementById(id).value);return Number.isFinite(x)?x:null}
+/* Indian-style comma formatting for amount text boxes (12,34,567.89) */
+function fmtIndianStr(raw){
+ let t=String(raw).replace(/[^0-9.]/g,''), di=t.indexOf('.');
+ let int=di>=0?t.slice(0,di):t, dec=di>=0?t.slice(di+1).replace(/\./g,'').slice(0,2):null;
+ int=int.replace(/^0+(?=\d)/,'');
+ let last3=int.slice(-3), rest=int.slice(0,-3);
+ if(rest)rest=rest.replace(/\B(?=(\d{2})+(?!\d))/g,',')+',';
+ return rest+last3+(dec!==null?'.'+dec:'');
+}
+function setMoneyValue(id,n){const el=document.getElementById(id);el.value=fmtIndianStr(Number(n).toFixed(2).replace(/\.00$/,''))}
+document.addEventListener('input',e=>{
+ const el=e.target; if(!el.classList||!el.classList.contains('money-input'))return;
+ const old=el.value, pos=el.selectionStart==null?old.length:el.selectionStart;
+ const sig=old.slice(0,pos).replace(/[^0-9.]/g,'').length;
+ const out=fmtIndianStr(old); if(out===old)return;
+ el.value=out;
+ let c=0,np=0; while(np<out.length&&c<sig){if(/[0-9.]/.test(out[np]))c++;np++}
+ try{el.setSelectionRange(np,np)}catch(_){}
+});
 function periodsPerYear(freq){return {monthly:12,quarterly:4,halfyearly:2,yearly:1}[freq]||12}
 function addMonths(date,n){
  let d=new Date(date+'T00:00:00'), originalDay=d.getDate();
@@ -326,7 +391,15 @@ function addMonths(date,n){
 function calcError(msg){document.getElementById('calcResult').innerHTML='<p class="danger-text">'+msg+'</p>'}
 
 /* ===================== Navigation ===================== */
+const PAGE_TITLES={home:'EMI Calculator',calculator:'EMI Equation Solver',schedule:'Repayment Schedule',analyzer:'Loan Analyzer',saved:'Saved Loans',investments:'Investment Calculators'};
+function toggleNav(open){
+ document.getElementById('sideNav').classList.toggle('open',open);
+ document.getElementById('navOverlay').classList.toggle('open',open);
+}
 function showPage(id){
+ toggleNav(false);
+ const t=document.getElementById('pageTitle'); if(t)t.textContent=PAGE_TITLES[id]||'Loan Calculator';
+ window.scrollTo(0,0);
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  const el=document.getElementById(id); if(el)el.classList.add('active');
  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
@@ -337,6 +410,86 @@ function showPage(id){
 }
 document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
 function goToSchedule(){showPage('schedule')}
+
+
+/* ===================== Home: EMI calculator with moratorium ===================== */
+const moneyR=n=>Number.isFinite(n)?Math.round(n).toLocaleString('en-IN'):'—';
+function buildHomeRows(P,r,M,morType,E,n,start){
+ const rows=[]; let bal=P, no=0, morInterest=0;
+ for(let k=1;k<=M;k++){
+  no++; const interest=bal*r, opening=bal;
+  if(morType==='capitalized'){bal+=interest;rows.push({no,date:addMonths(start,no),opening,emi:0,principal:0,interest,closing:bal,moratorium:true})}
+  else rows.push({no,date:addMonths(start,no),opening,emi:interest,principal:0,interest,closing:bal,moratorium:true});
+  morInterest+=interest;
+ }
+ if(r>0&&E<=bal*r+0.005)return null;
+ let i=0;
+ while(bal>0.005&&i<1200){
+  i++; no++; const interest=bal*r, opening=bal;
+  const last=(n!=null&&i>=n)||bal+interest<=E;
+  const pay=last?Math.ceil(bal+interest):E;
+  const principal=Math.min(bal,Math.max(0,pay-interest));
+  bal=Math.max(0,bal-principal); if(bal<0.005)bal=0;
+  rows.push({no,date:addMonths(start,no),opening,emi:pay,principal,interest,closing:bal});
+ }
+ return {rows,emi:E,term:rows.length,morInterest,totalInterest:rows.reduce((a,x)=>a+x.interest,0),totalPay:rows.reduce((a,x)=>a+x.emi,0)};
+}
+function runHomeEmi(){
+ const out=document.getElementById('hResult');
+ try{
+  const P=val('hAmount'), annual=val('hRate'), t=val('hTenure'), unit=document.getElementById('hUnit').value;
+  const N=t==null?0:Math.round(unit==='years'?t*12:t), M=Math.max(0,Math.round(val('hMor')||0));
+  const morType=document.getElementById('hMorType').value, method=document.getElementById('hMethod').value;
+  const start=document.getElementById('hStart').value||todayISO();
+  if(P===null||P<=0)throw Error('Enter the loan amount.');
+  if(annual===null||annual<0)throw Error('Enter the interest rate.');
+  if(N<1)throw Error('Enter the total period.');
+  if(M>=N)throw Error('Moratorium must be shorter than the total period.');
+  const r=annual/1200, emiFor=(B,n)=>Math.ceil(r===0?B/n:B*r/(1-Math.pow(1+r,-n)));
+  const E0=emiFor(P,N), base=buildHomeRows(P,r,0,morType,E0,N,start);
+  const scen={base,P,annual,start,M,N,morType,method};
+  let html='';
+  if(M>0){
+   const B=morType==='capitalized'?P*Math.pow(1+r,M):P;
+   scen.A=buildHomeRows(P,r,M,morType,emiFor(B,N-M),N-M,start);
+   scen.B=buildHomeRows(P,r,M,morType,emiFor(B,N),N,start);
+   scen.C=buildHomeRows(P,r,M,morType,E0,null,start);
+   scen.sel=scen[method];
+  }
+  window.homeScen=scen;
+  const sel=scen.sel;
+  html+='<div class="hcards"><div class="metric"><span>EMI without moratorium</span><b>₹'+moneyR(base.emi)+'</b></div>'+
+   (M>0?'<div class="metric hi"><span>EMI with moratorium</span><b>'+(sel?'₹'+moneyR(sel.emi):'Not feasible')+'</b></div>':'<div class="metric"><span>Total interest</span><b>₹'+moneyR(base.totalInterest)+'</b></div>')+'</div>';
+  const cols=M>0?[['No Mor.',base,''],['A',scen.A,'A'],['B',scen.B,'B'],['C',scen.C,'C']]:[['EMI',base,'']];
+  const cell=(c,f,k)=>{const v=c[1];return '<td class="'+(M>0&&c[2]===method?'sel':'')+'">'+(v?f(v):'—')+'</td>'};
+  const head='<tr><th>₹</th>'+cols.map(c=>'<th class="'+(M>0&&c[2]===method?'sel':'')+'">'+c[0]+'</th>').join('')+'</tr>';
+  const line=(label,f)=>'<tr><td>'+label+'</td>'+cols.map(c=>cell(c,f)).join('')+'</tr>';
+  html+='<div class="table-wrap" style="max-height:none"><table class="cmp">'+head+
+   line('EMI',v=>moneyR(v.emi))+
+   line('Term (mths)',v=>v.term)+
+   (M>0?line(morType==='capitalized'?'Mor. interest (added)':'Mor. interest (paid)',v=>moneyR(v.morInterest)):'')+
+   line('Total interest',v=>moneyR(v.totalInterest))+
+   line('Total payment',v=>moneyR(v.totalPay))+'</table></div>';
+  if(M>0){
+   html+='<p class="small" style="margin:6px 0 0"><b>A</b> Higher EMI, same term · <b>B</b> Higher EMI, extended term (same no. of instalments, moratorium added on top) · <b>C</b> Same EMI as without moratorium, extended term.'+(morType==='paid'?' With interest paid monthly, B and C coincide.':'')+(!scen.C?' <span class="danger-text">C is not feasible: the EMI does not cover the interest.</span>':'')+'</p>';
+  }
+  html+='<div class="actions" style="margin-top:8px"><button class="btn primary" onclick="openHomeSchedule(\''+(M>0?'sel':'base')+'\')">View Schedule'+(M>0?' (with moratorium)':'')+'</button>'+(M>0?'<button class="btn" onclick="openHomeSchedule(\'base\')">Schedule (without)</button>':'')+'</div>';
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+ }catch(err){out.innerHTML='<p class="danger-text">'+err.message+'</p>'}
+}
+function openHomeSchedule(which){
+ const sc=window.homeScen; if(!sc||!sc[which])return alert('This scenario is not feasible.');
+ const s=sc[which];
+ loan={principal:sc.P,emi:s.emi,annualRate:sc.annual,months:s.term,numPeriods:s.rows.length,startDate:sc.start,frequency:'monthly',repaymentType:'emi',emiLabel:which==='sel'?'EMI (after moratorium)':'EMI'};
+ schedule=s.rows; renderSchedule(); showPage('schedule');
+}
+function clearHome(){
+ ['hAmount','hRate','hTenure','hMor'].forEach(id=>document.getElementById(id).value='');
+ document.getElementById('hUnit').value='years'; document.getElementById('hMorType').value='capitalized'; document.getElementById('hMethod').value='A';
+ document.getElementById('hStart').value=todayISO();
+ document.getElementById('hAmountWords').textContent=''; document.getElementById('hResult').innerHTML=''; window.homeScen=null;
+}
 
 /* ===================== Amount-in-words ===================== */
 function indianWords(n){
@@ -363,11 +516,11 @@ function indianWords(n){
 function updateAmountWords(inputId, outputId){
  const el=document.getElementById(inputId), out=document.getElementById(outputId);
  if(!el||!out)return;
- const n=parseFloat(el.value);
+ const n=parseNum(el.value);
  out.textContent=Number.isFinite(n)&&n>=0?indianWords(n):'';
 }
-['principal','emi','aPrincipal','aEmi'].forEach(id=>{
- const out=id==='principal'?'principalWords':id==='emi'?'emiWords':id==='aPrincipal'?'aPrincipalWords':'aEmiWords';
+['principal','emi','aPrincipal','aEmi','hAmount'].forEach(id=>{
+ const out=id==='principal'?'principalWords':id==='emi'?'emiWords':id==='aPrincipal'?'aPrincipalWords':id==='hAmount'?'hAmountWords':'aEmiWords';
  const el=document.getElementById(id);
  if(el)el.addEventListener('input',()=>updateAmountWords(id,out));
 });
@@ -430,10 +583,10 @@ function calcNormalEmi(){
  let r=annual==null?null:annual/100/ppy;
  if(p===null){
   if(r===0)p=e*n; else p=e*(1-Math.pow(1+r,-n))/r;
-  document.getElementById('principal').value=p.toFixed(2); updateAmountWords('principal','principalWords');
+  setMoneyValue('principal',p); updateAmountWords('principal','principalWords');
  }else if(e===null){
   if(r===0)e=p/n; else e=p*r/(1-Math.pow(1+r,-n));
-  document.getElementById('emi').value=e.toFixed(2); updateAmountWords('emi','emiWords');
+  setMoneyValue('emi',e); updateAmountWords('emi','emiWords');
  }else if(annual===null){
   annual=solveRate(p,e,n,ppy); document.getElementById('rate').value=annual.toFixed(6); r=annual/100/ppy;
  }else if(totalMonths===null){
@@ -629,7 +782,7 @@ function renderSchedule(){
 
 /* ===================== Repayment Analyzer ===================== */
 function addRateEvent(date='',rate=''){let div=document.createElement('div');div.className='event rate-event';div.innerHTML=`<div class="row"><div><label>Effective Date</label><input class="rdate" type="date" value="${date}"></div><div><label>New Rate (% p.a.)</label><input class="rrate" type="number" step="0.0001" value="${rate}"></div><button class="btn danger" onclick="this.parentElement.parentElement.remove()">Remove</button></div>`;document.getElementById('rateEvents').appendChild(div)}
-function addPaymentEvent(date='',amount=''){let div=document.createElement('div');div.className='event payment-event';div.innerHTML=`<div class="row"><div><label>Payment Date</label><input class="pdate" type="date" value="${date}"></div><div><label>Additional Principal</label><input class="pamt" type="number" step="0.01" value="${amount}"></div><button class="btn danger" onclick="this.parentElement.parentElement.remove()">Remove</button></div>`;document.getElementById('paymentEvents').appendChild(div)}
+function addPaymentEvent(date='',amount=''){let div=document.createElement('div');div.className='event payment-event';div.innerHTML=`<div class="row"><div><label>Payment Date</label><input class="pdate" type="date" value="${date}"></div><div><label>Additional Principal</label><input class="pamt money-input" type="text" inputmode="decimal" autocomplete="off" value="${amount}"></div><button class="btn danger" onclick="this.parentElement.parentElement.remove()">Remove</button></div>`;document.getElementById('paymentEvents').appendChild(div)}
 function toggleEmiReset(){document.getElementById('emiResetBox').style.display=document.getElementById('rateTreatment').value==='sameTenure'?'block':'none'}
 function updateAnalysisFields(){
  const mode=document.getElementById('analysisMode')?.value||'rateChange';
@@ -652,7 +805,7 @@ let morPeriod=val('aMorPeriod')||0, morType=document.getElementById('aMorType').
 if([P,EMI,original].some(x=>x===null)||P<=0||EMI<=0||original<=0){document.getElementById('analysisResult').innerHTML='<p class="danger-text">Enter all required analyzer fields.</p>';return}
 if(initialRate===null){document.getElementById('analysisResult').innerHTML='<p class="danger-text">Enter the initial lending rate.</p>';return}
 let rates=[...document.querySelectorAll('.rate-event')].map(e=>({date:e.querySelector('.rdate').value,rate:parseFloat(e.querySelector('.rrate').value)})).filter(x=>x.date&&Number.isFinite(x.rate)).sort((a,b)=>a.date.localeCompare(b.date));
-let extras=[...document.querySelectorAll('.payment-event')].map(e=>({date:e.querySelector('.pdate').value,amount:parseFloat(e.querySelector('.pamt').value)})).filter(x=>x.date&&x.amount>0).sort((a,b)=>a.date.localeCompare(b.date));
+let extras=[...document.querySelectorAll('.payment-event')].map(e=>({date:e.querySelector('.pdate').value,amount:parseNum(e.querySelector('.pamt').value)})).filter(x=>x.date&&x.amount>0).sort((a,b)=>a.date.localeCompare(b.date));
 let bal=P,currentEMI=Math.ceil(EMI),rows=[],i=0,firstResetEMI=null,maxLoops=Math.max(morTotal,original)+240;
 function effectiveRate(due){
  let explicit=rates.filter(x=>x.date<=due);
@@ -1044,7 +1197,7 @@ function clearAnalyzer(){
 }
 
 /* ===================== Investment calculators ===================== */
-function invNum(id){const x=parseFloat(document.getElementById(id)?.value);return Number.isFinite(x)?x:null}
+function invNum(id){const x=parseNum(document.getElementById(id)?.value);return Number.isFinite(x)?x:null}
 function invMoney(x){return '₹'+Math.round(x||0).toLocaleString('en-IN')}
 function invPct(x){return (x||0).toFixed(2)+'%'}
 function showInvResult(items, rows=[]){
@@ -1127,6 +1280,7 @@ function calcRd(){
 
 /* ===================== Init ===================== */
 document.getElementById('startDate').value=todayISO();
+document.getElementById('hStart').value=todayISO();
 document.getElementById('aStartDate').value=todayISO();
 document.getElementById('aTotalTenure').value='';
 document.getElementById('aMorPeriod').value='';
