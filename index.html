@@ -5,80 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loan Calculator & Repayment Analyzer</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#1f2937}
-header{background:#17365d;color:#fff;padding:14px 22px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:900}header h1{margin:0;font-size:22px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-nav{display:flex;gap:8px;flex-wrap:wrap;background:#fff;padding:10px 16px;border-bottom:1px solid #ddd}
+:root{--navy:#0f2a52;--blue:#1e4a80;--teal:#0d9488;--bg:#eef3f9;--line:#dbe4f0;--muted:#667085;--ink:#101828;--soft:#f5f8fc;--gold:#f5b942}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:linear-gradient(180deg,#e4edf8 0,#f3f6fb 280px,#f3f6fb 100%) fixed;color:var(--ink);-webkit-font-smoothing:antialiased}
+header{background:linear-gradient(120deg,#0a2147 0,#17407a 60%,#1e5a9a 100%);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:900;box-shadow:0 2px 14px rgba(10,33,71,.35)}
+header h1{margin:0;font-size:20px;font-weight:700;letter-spacing:.2px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ffd77a,#f5a524);color:#5a3a00;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+nav{display:flex;gap:6px;flex-wrap:wrap;background:#fff;padding:8px 16px;border-bottom:1px solid var(--line)}
 .menu-btn,.nav-head,#navOverlay{display:none}
-nav button{border:0;border-radius:7px;padding:10px 14px;background:#e8eef6;color:#17365d;font-weight:600;cursor:pointer}
-nav button.active{background:#17365d;color:#fff}
-.btn{border:0;border-radius:7px;padding:10px 14px;background:#e8eef6;color:#17365d;font-weight:600;cursor:pointer}
-.btn.primary{background:#17365d;color:#fff}.btn.danger{background:#b42318;color:#fff}
-main{max-width:1200px;margin:20px auto;padding:0 15px}.page{display:none}.page.active{display:block}
-.card{background:#fff;border-radius:10px;padding:18px;margin-bottom:16px;box-shadow:0 1px 5px #0001}
-h2{margin-top:0;color:#17365d}h3{color:#344054}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-label{display:block;font-weight:600;font-size:13px;margin-bottom:5px}.amount-words{font-size:12px;color:#667085;margin-top:4px;min-height:16px;font-style:italic}
-input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:6px;font-size:15px}
+.nav-btn{display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:9px 16px;background:transparent;color:#344054;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
+.nav-btn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn:hover{background:#eaf1f9}.nav-btn.active{background:var(--navy);color:#fff}
+.btn{border:1.5px solid var(--line);border-radius:10px;padding:11px 16px;background:#fff;color:var(--navy);font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit;transition:background .15s,transform .1s,box-shadow .15s}
+.btn:hover{background:#f1f6fc}.btn:active{transform:scale(.98)}
+.btn.primary{background:linear-gradient(135deg,#1a4a8a,#0f2a52);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(15,42,82,.3)}.btn.primary:hover{filter:brightness(1.1)}
+.btn.danger{background:#b42318;color:#fff;border-color:transparent}
+main{max-width:1200px;margin:20px auto;padding:0 15px}.page{display:none}.page.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid #e6edf6;box-shadow:0 1px 2px rgba(16,40,80,.05),0 10px 28px rgba(16,40,80,.07)}
+h2{margin-top:0;color:var(--navy);font-size:20px}h3{color:#344054}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+label{display:block;font-weight:600;font-size:12.5px;color:#475467;margin-bottom:5px;letter-spacing:.01em}
+.amount-words{font-size:12px;color:var(--teal);margin-top:4px;min-height:16px;font-style:italic;font-weight:500}
+input,select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:15px;background:#f9fbfd;color:var(--ink);font-family:inherit;transition:border-color .15s,box-shadow .15s,background .15s}
+input:focus,select:focus{outline:0;border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(30,74,128,.16)}
+select{appearance:none;-webkit-appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%231e4a80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+input[type=checkbox]{width:auto;padding:0;accent-color:var(--blue)}
+input::placeholder{color:#a0aab8}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.row>*{flex:1;min-width:150px}
-.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.metric{background:#f7f9fc;padding:12px;border-radius:8px}.metric b{display:block;font-size:18px;margin-top:5px}
-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}th,td{padding:8px;border:1px solid #e5e7eb;text-align:right}th{background:#eef3f8;color:#17365d}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
-.table-wrap{overflow:auto;max-height:500px}.small{font-size:12px;color:#667085}.success{color:#087443;font-weight:700}.warning{color:#b54708;font-weight:700}.danger-text{color:#b42318;font-weight:700}
-.event{border:1px solid #dbe2ea;padding:10px;border-radius:7px;margin:8px 0}.event .row{align-items:end}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.empty{padding:20px;text-align:center;color:#667085}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.metric{background:var(--soft);border:1px solid #e6edf6;padding:12px;border-radius:12px;font-size:13px;color:#475467}.metric b{display:block;font-size:18px;margin-top:5px;color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+th,td{padding:8px;border-bottom:1px solid #e8eef6;text-align:right}
+th{background:#eaf1f9;color:var(--navy);font-size:12px;font-weight:700;position:sticky;top:0;z-index:1}
+tbody tr:nth-child(even) td{background:#fafcfe}tbody tr:hover td{background:#f0f6fd}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+.table-wrap{overflow:auto;max-height:500px;border:1px solid var(--line);border-radius:12px}
+.small{font-size:12px;color:var(--muted)}.success{color:#087443;font-weight:700}.warning{color:#b54708;font-weight:700}.danger-text{color:#b42318;font-weight:700}
+.event{border:1px solid var(--line);background:var(--soft);padding:12px;border-radius:12px;margin:8px 0}.event .row{align-items:end}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.empty{padding:20px;text-align:center;color:var(--muted)}
 .hero{padding:24px 4px 12px}.hero h1{margin-bottom:6px}
 .home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:18px 0 28px}
-.home-card{border:1px solid #ddd;border-radius:14px;padding:20px;text-align:left;background:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.home-card{border:1px solid #ddd;border-radius:14px;padding:20px;text-align:left;background:#fff;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:120px;align-items:flex-start}
 .home-card strong{font-size:1.05rem}.home-card span{font-size:.9rem;opacity:.72}
+.home-card-icon{width:42px;height:42px;border-radius:11px;background:#e8eef6;color:#17365d;display:flex;align-items:center;justify-content:center;flex-shrink:0}.home-card-icon svg{width:23px;height:23px}
 .task-selector{margin-bottom:16px}.task-selector select{font-size:1rem;min-height:44px}
 .month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:6px}
-.month-grid label{display:flex;align-items:center;gap:6px;font-weight:500;background:#f7f9fc;border:1px solid #dbe2ea;border-radius:6px;padding:8px;margin:0}
+.month-grid label{display:flex;align-items:center;gap:6px;font-weight:500;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px;margin:0}
 .month-grid input{width:auto}
-.investment-form .inv-panel{padding-top:4px}
-.investment-form h3{margin-top:0}
+.investment-form .inv-panel{padding-top:4px}.investment-form h3{margin-top:0}
 #investmentResult .results{margin-top:0}
 .investment-result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
-.investment-result-grid .metric{padding:14px;border:1px solid #ddd;border-radius:10px}
-.investment-result-grid .metric b{display:block;margin-top:5px;font-size:1.08rem}
-@media(max-width:600px){header h1{font-size:18px}main{margin:10px auto}.card{padding:14px}}
-/* ---- Home EMI calculator ---- */
-.card-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.card-title h2{margin:0;font-size:19px}
-.link-btn{background:none;border:0;color:#17365d;font-weight:600;font-size:13px;cursor:pointer;padding:6px 4px;text-decoration:underline}
-.span2{grid-column:1/-1}.btn-cell{display:flex;align-items:flex-end}.btn-cell .btn{width:100%;height:42px}
-.inline2{display:flex;gap:6px}.inline2 input{flex:1;min-width:0}.inline2 select{width:80px;flex:none;padding:9px 2px}
-.hcards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 8px}
-.hcards .metric{padding:10px}.hcards .metric span{font-size:11.5px;color:#475467}.hcards .metric b{font-size:17px;margin-top:3px}
-.hcards .metric.hi{background:#e8eef6;border:1px solid #17365d33}
+.investment-result-grid .metric{padding:14px;border:1px solid var(--line);border-radius:12px}.investment-result-grid .metric b{display:block;margin-top:5px;font-size:1.08rem}
+/* ---- EMI calculator (home & solver) ---- */
+.card-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-title h2{margin:0;font-size:19px;display:flex;align-items:center;gap:9px}.card-title h2::before{content:"";width:4px;height:20px;border-radius:3px;background:linear-gradient(180deg,var(--teal),var(--blue))}
+.link-btn{background:#eef3f9;border:0;border-radius:8px;color:var(--blue);font-weight:600;font-size:12.5px;cursor:pointer;padding:6px 12px;font-family:inherit}
+.span2{grid-column:1/-1}
+.group{background:linear-gradient(180deg,#f4f8fd,#eef4fb);border:1px solid #d9e5f3;border-radius:14px;padding:10px 12px 12px}
+.group>.grid{gap:8px 10px;grid-template-columns:1fr 1fr}
+.group-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.group-title span{font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted);font-size:11px}
+.big{width:100%;height:48px;font-size:16px;border-radius:12px}
+.inline2{display:flex;gap:6px}.inline2 input{flex:1;min-width:0}.inline2 select{width:92px;flex:none;padding-left:8px;padding-right:20px;background-position:right 6px center}
+#home .card{max-width:780px;margin-left:auto;margin-right:auto}
+#home .grid{grid-template-columns:1fr 1fr;gap:10px}
+.hcards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 10px}
+.hcards .metric{padding:12px;border-radius:14px}.hcards .metric span{font-size:11.5px;color:#475467;font-weight:600}.hcards .metric b{font-size:19px;margin-top:4px}
+.hcards .metric.hi{background:linear-gradient(135deg,#17407a,#0f2a52);border:0;box-shadow:0 6px 16px rgba(15,42,82,.3)}.hcards .metric.hi span{color:#c7d8ee}.hcards .metric.hi b{color:#fff}
+.notebox{background:#fff8e8;border:1px solid #f4dfae;border-radius:10px;padding:8px 10px;color:#6b4e0a;font-size:12px;line-height:1.45;margin-top:8px}
 table.cmp{font-size:11.5px}table.cmp th,table.cmp td{padding:5px 3px;text-align:right}table.cmp th:first-child,table.cmp td:first-child{text-align:left;white-space:normal;width:54px;line-height:1.2}
 table.cmp th:nth-child(2),table.cmp td:nth-child(2){text-align:right}
-table.cmp .sel{background:#e8eef6;font-weight:700}
-.moratorium-row td{background:#fff8eb}
+table.cmp th.sel,table.cmp td.sel{background:#dfeafa!important;font-weight:700;color:var(--navy)}
+tbody tr.moratorium-row td{background:#fff6e2!important}
+@media(min-width:601px){table.cmp{font-size:13px}table.cmp th,table.cmp td{padding:8px 10px}table.cmp th:first-child,table.cmp td:first-child{white-space:nowrap;width:auto}}
 .menu-btn svg{width:24px;height:24px}
 @media(max-width:768px){
- .menu-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:8px;background:#ffffff22;color:#fff;cursor:pointer;flex:none}
- header{padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px))}header h1{font-size:18px}
- nav{position:fixed;top:0;left:0;bottom:0;width:80%;max-width:300px;flex-direction:column;flex-wrap:nowrap;gap:4px;padding:0 0 16px;z-index:1001;transform:translateX(-105%);transition:transform .25s ease;box-shadow:4px 0 18px #0004;overflow-y:auto;border-bottom:0}
+ .menu-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:10px;background:#ffffff26;color:#fff;cursor:pointer;flex:none}
+ header{padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px))}header h1{font-size:17px}.brand{width:30px;height:30px;font-size:16px}
+ nav{position:fixed;top:0;left:0;bottom:0;width:80%;max-width:300px;flex-direction:column;flex-wrap:nowrap;gap:4px;padding:0 0 16px;z-index:1001;transform:translateX(-105%);transition:transform .25s ease;box-shadow:6px 0 24px #0005;overflow-y:auto;border-bottom:0}
  nav.open{transform:none}
- .nav-head{display:flex;align-items:center;justify-content:space-between;background:#17365d;color:#fff;padding:16px 14px;padding-top:calc(16px + env(safe-area-inset-top,0px));font-weight:700;font-size:17px;margin-bottom:8px}
- .nav-head button{background:none;border:0;color:#fff;font-size:26px;line-height:1;cursor:pointer;padding:0 6px}
- nav .nav-btn{text-align:left;margin:0 10px;padding:13px 14px;font-size:15px}
- #navOverlay{position:fixed;inset:0;background:#0006;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s;display:block}
+ .nav-head{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(120deg,#0a2147,#1e5a9a);color:#fff;padding:18px 14px;padding-top:calc(18px + env(safe-area-inset-top,0px));font-weight:700;font-size:16px;margin-bottom:10px}
+ .nav-head button{background:none;border:0;color:#fff;font-size:28px;line-height:1;cursor:pointer;padding:0 6px}
+ nav .nav-btn{margin:0 10px;padding:13px 14px;font-size:15px;border-radius:12px;color:#1f2f46}
+ nav .nav-btn.active{background:linear-gradient(135deg,#1a4a8a,#0f2a52);color:#fff;box-shadow:0 4px 12px rgba(15,42,82,.28)}
+ #navOverlay{position:fixed;inset:0;background:#0a1a3566;backdrop-filter:blur(2px);z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s;display:block}
  #navOverlay.open{opacity:1;pointer-events:auto}
 }
 @media(max-width:600px){
- main{margin:8px auto;padding:0 8px}.card{padding:12px;margin-bottom:10px}
+ main{margin:8px auto;padding:0 8px}.card{padding:12px;margin-bottom:10px;border-radius:14px}
  h2{font-size:18px}h3{font-size:15px;margin:8px 0}
  .grid{grid-template-columns:1fr 1fr;gap:8px}
  label{font-size:12px;margin-bottom:3px}
- input,select{padding:9px 8px;font-size:16px}
+ input,select{padding:9px 8px;font-size:16px}select{padding-right:26px}
  .amount-words{font-size:11px;min-height:0;margin-top:2px}
  .actions{margin-top:10px}
  .results{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:9px}.metric b{font-size:15px}
  .row>*{min-width:110px}
  .task-selector{margin-bottom:10px}.task-selector h3{margin-top:0}
+ .group{padding:8px 9px 10px}
 }
-.home-card{align-items:flex-start}
-.home-card-icon{width:42px;height:42px;border-radius:11px;background:#e8eef6;color:#17365d;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.home-card-icon svg{width:23px;height:23px}
 .print-only{display:none}
 .print-header{display:none}
 @media print{
@@ -109,17 +135,18 @@ table.cmp .sel{background:#e8eef6;font-weight:700}
 <body>
 <header>
 <button class="menu-btn" aria-label="Open menu" onclick="toggleNav(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
+<span class="brand">₹</span>
 <h1 id="pageTitle">EMI Calculator</h1>
 </header>
 <div id="navOverlay" onclick="toggleNav(false)"></div>
 <nav id="sideNav">
 <div class="nav-head"><span>Loan Calculator &amp; Analyzer</span><button aria-label="Close menu" onclick="toggleNav(false)">&times;</button></div>
-<button class="nav-btn" data-page="home">EMI Calculator</button>
-<button class="nav-btn" data-page="calculator">EMI Equation Solver</button>
-<button class="nav-btn" data-page="schedule">Repayment Schedule</button>
-<button class="nav-btn" data-page="analyzer">Loan Analyzer</button>
-<button class="nav-btn" data-page="saved">Saved Loans</button>
-<button class="nav-btn" data-page="investments">Investments</button>
+<button class="nav-btn" data-page="home"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="8" y1="7.5" x2="16" y2="7.5"/><line x1="8.5" y1="12" x2="8.6" y2="12"/><line x1="12" y1="12" x2="12.1" y2="12"/><line x1="15.5" y1="12" x2="15.6" y2="12"/><line x1="8.5" y1="16" x2="8.6" y2="16"/><line x1="12" y1="16" x2="15.6" y2="16"/></svg><span>EMI Calculator</span></button>
+<button class="nav-btn" data-page="calculator"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2"/></svg><span>EMI Equation Solver</span></button>
+<button class="nav-btn" data-page="schedule"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg><span>Repayment Schedule</span></button>
+<button class="nav-btn" data-page="analyzer"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="9"/></svg><span>Loan Analyzer</span></button>
+<button class="nav-btn" data-page="saved"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span>Saved Loans</span></button>
+<button class="nav-btn" data-page="investments"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg><span>Investments</span></button>
 </nav>
 <main>
 <div id="printHeader" class="print-only"></div>
@@ -131,11 +158,17 @@ table.cmp .sel{background:#e8eef6;font-weight:700}
   <div class="span2"><label>Loan Amount (₹)</label><input id="hAmount" class="money-input" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 25,00,000"><div id="hAmountWords" class="amount-words"></div></div>
   <div><label>Interest Rate (% p.a.)</label><input id="hRate" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 8.5"></div>
   <div><label>Total Period</label><div class="inline2"><input id="hTenure" type="number" inputmode="numeric" min="1" step="1" placeholder="e.g. 20"><select id="hUnit"><option value="years">Years</option><option value="months">Months</option></select></div></div>
-  <div><label>Moratorium (months)</label><input id="hMor" type="number" inputmode="numeric" min="0" step="1" placeholder="0 = none"></div>
-  <div><label>Interest in Moratorium</label><select id="hMorType"><option value="capitalized">Capitalised</option><option value="paid">Paid monthly</option></select></div>
-  <div class="span2"><label>Repay After Moratorium By</label><select id="hMethod"><option value="A">Higher EMI, same term</option><option value="B">Higher EMI, extended term</option><option value="C">Same EMI, extended term</option></select></div>
+  <div class="group span2">
+   <div class="group-title">Moratorium <span>optional</span></div>
+   <div class="grid">
+    <div><label>Period (months)</label><input id="hMor" type="number" inputmode="numeric" min="0" step="1" placeholder="0 = none"></div>
+    <div><label>Interest during it</label><select id="hMorType"><option value="capitalized">Capitalised</option><option value="simple">Simple</option><option value="paid">Paid monthly</option></select></div>
+    <div class="span2"><label>Repay after moratorium by</label><select id="hMethod"><option value="A">Higher EMI, same term</option><option value="B">Higher EMI, extended term</option><option value="C">Same EMI, extended term</option></select></div>
+   </div>
+  </div>
+  <div><label>Interest Basis</label><select id="hBasis"><option value="monthly">Monthly</option><option value="actual">Actual days</option></select></div>
   <div><label>Start Date</label><input id="hStart" type="date"></div>
-  <div class="btn-cell"><button class="btn primary" onclick="runHomeEmi()">Calculate</button></div>
+  <div class="span2"><button class="btn primary big" onclick="runHomeEmi()">Calculate EMI</button></div>
  </div>
  <div id="hResult"></div>
 </div>
@@ -166,6 +199,15 @@ table.cmp .sel{background:#e8eef6;font-weight:700}
 <div data-repay-type="all"><label>Tenure</label><div class="inline2"><input id="tenure" type="number" min="1" step="1" placeholder="Tenure"><select id="tenureUnit"><option value="months">Months</option><option value="years">Years</option></select></div></div>
 <div data-repay-type="all"><label>Loan Start Date</label><input id="startDate" type="date"></div>
 <div data-repay-type="emi piSeparate interestOnly balloon stepUp stepDown"><label>Repayment Frequency</label><select id="frequency"><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="halfyearly">Half-Yearly</option><option value="yearly">Yearly</option></select></div>
+<div class="group span2" data-repay-type="emi">
+<div class="group-title">Moratorium &amp; interest basis <span>optional</span></div>
+<div class="grid">
+<div><label>Moratorium (months)</label><input id="mor" type="number" min="0" step="1" placeholder="0 = none"></div>
+<div><label>Interest during it</label><select id="morType"><option value="capitalized">Capitalised</option><option value="simple">Simple</option><option value="paid">Paid monthly</option></select></div>
+<div class="span2"><label>Interest Basis</label><select id="dayBasis"><option value="monthly">Monthly (rate ÷ 12)</option><option value="actual">Actual days in month (÷ 365)</option></select></div>
+<p class="small span2" style="margin:0">Tenure is the total period including the moratorium; EMIs begin after it. Moratorium and day-count apply to Normal EMI.</p>
+</div>
+</div>
 <div data-repay-type="balloon"><label>Balloon Payment Amount</label><input id="balloonAmount" type="text" inputmode="decimal" class="money-input" autocomplete="off" min="0" step="0.01" placeholder="Lump sum due at the end"></div>
 <div data-repay-type="stepUp stepDown"><label id="stepPercentLabel">Step-up Percentage (%)</label><input id="stepPercent" type="number" min="0" step="0.01" placeholder="e.g. 10"></div>
 <div data-repay-type="stepUp stepDown"><label>Step Interval (Months)</label><input id="stepInterval" type="number" min="1" step="1" value="12"></div>
@@ -357,7 +399,8 @@ let loan={};
 let schedule=[];
 const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(n||0);
 const fmtDate=d=>{if(!d)return '';let x=new Date(d+'T00:00:00');return x.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})};
-const todayISO=()=>new Date().toISOString().slice(0,10);
+const isoLocal=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const todayISO=()=>isoLocal(new Date());
 function parseNum(s){return parseFloat(String(s==null?'':s).replace(/,/g,''))}
 function val(id){let x=parseNum(document.getElementById(id).value);return Number.isFinite(x)?x:null}
 /* Indian-style comma formatting for amount text boxes (12,34,567.89) */
@@ -386,7 +429,7 @@ function addMonths(date,n){
  let target=new Date(d.getFullYear(),d.getMonth()+wholeMonths,1);
  let lastDay=new Date(target.getFullYear(),target.getMonth()+1,0).getDate();
  target.setDate(Math.min(originalDay,lastDay));
- return target.toISOString().slice(0,10);
+ return isoLocal(target);
 }
 function calcError(msg){document.getElementById('calcResult').innerHTML='<p class="danger-text">'+msg+'</p>'}
 
@@ -412,84 +455,123 @@ document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>
 function goToSchedule(){showPage('schedule')}
 
 
+/* ===================== Interest engine: moratorium + day-count ===================== */
+const MOR_TEXT={capitalized:'Interest is added to the balance every month (compounds).',simple:'Simple interest on the original loan amount, added to the loan when the moratorium ends.',paid:'Interest is paid monthly; the loan amount stays unchanged.'};
+const MOR_SHORT={capitalized:'capitalised monthly',simple:'simple interest, added at end',paid:'interest paid monthly'};
+function daysBetween(a,b){const x=a.split('-').map(Number),y=b.split('-').map(Number);return Math.round((Date.UTC(y[0],y[1]-1,y[2])-Date.UTC(x[0],x[1]-1,x[2]))/864e5)}
+function accrue(bal,annual,r,d0,d1,actual){return actual?bal*annual/100*daysBetween(d0,d1)/365:bal*r}
+function runMoratorium(P,annual,M,morType,actual,start){
+ const rows=[],rm=annual/1200; let bal=P,accrued=0,prev=start,total=0;
+ for(let k=1;k<=M;k++){
+  const d=addMonths(start,k), base=morType==='capitalized'?bal:P, interest=accrue(base,annual,rm,prev,d,actual);
+  const opening=morType==='simple'?P+accrued:bal; let emi=0,closing;
+  if(morType==='capitalized'){bal+=interest;closing=bal}
+  else if(morType==='simple'){accrued+=interest;closing=P+accrued}
+  else{emi=interest;closing=bal}
+  rows.push({no:k,date:d,opening,emi,principal:0,interest,closing,moratorium:true});
+  total+=interest; prev=d;
+ }
+ if(morType==='simple')bal=P+accrued;
+ return {rows,bal,total,prev};
+}
+function amortize(o){
+ const {P,annual,M,morType,actual,start,E,n}=o, mpp=o.mpp||1, r=annual/100/(12/mpp);
+ const mor=runMoratorium(P,annual,M,morType,actual,start);
+ const rows=mor.rows.slice(); let bal=mor.bal, prev=mor.prev, no=M, i=0;
+ while(bal>0.005&&i<2000){
+  i++; no++;
+  const d=addMonths(start,M+i*mpp), interest=accrue(bal,annual,r,prev,d,actual);
+  const last=(n!=null&&i>=n)||bal+interest-E<=0.5;
+  const pay=last?Math.ceil(bal+interest):Math.ceil(E);
+  const principal=Math.min(bal,Math.max(0,pay-interest)), opening=bal;
+  bal=Math.max(0,bal-principal); if(bal<0.005)bal=0;
+  rows.push({no,date:d,opening,emi:pay,principal,interest,closing:bal}); prev=d;
+ }
+ if(bal>0.005)return null;
+ return {rows,emi:E,n:i,term:M+i*mpp,morInterest:mor.total,balAfter:mor.bal,
+  totalInterest:rows.reduce((a,x)=>a+x.interest,0),totalPay:rows.reduce((a,x)=>a+x.emi,0)};
+}
+
+function emiFor(B,n,o){
+ const mpp=o.mpp||1, ppy=12/mpp, r=o.annual/100/ppy;
+ if(!o.actual)return Math.ceil(r===0?B/n:B*r/(1-Math.pow(1+r,-n)));
+ const days=[]; let prev=addMonths(o.start,o.Mm);
+ for(let i=1;i<=n;i++){const d=addMonths(o.start,o.Mm+i*mpp);days.push(daysBetween(prev,d));prev=d}
+ let lo=B/n, hi=B/n+B*o.annual/100/ppy*1.01+1;
+ for(let k=0;k<60;k++){const E=(lo+hi)/2;let bal=B;for(let i=0;i<n;i++)bal+=bal*o.annual/100*days[i]/365-E;if(bal>0)lo=E;else hi=E}
+ return Math.ceil(hi);
+}
 /* ===================== Home: EMI calculator with moratorium ===================== */
 const moneyR=n=>Number.isFinite(n)?Math.round(n).toLocaleString('en-IN'):'—';
-function buildHomeRows(P,r,M,morType,E,n,start){
- const rows=[]; let bal=P, no=0, morInterest=0;
- for(let k=1;k<=M;k++){
-  no++; const interest=bal*r, opening=bal;
-  if(morType==='capitalized'){bal+=interest;rows.push({no,date:addMonths(start,no),opening,emi:0,principal:0,interest,closing:bal,moratorium:true})}
-  else rows.push({no,date:addMonths(start,no),opening,emi:interest,principal:0,interest,closing:bal,moratorium:true});
-  morInterest+=interest;
- }
- if(r>0&&E<=bal*r+0.005)return null;
- let i=0;
- while(bal>0.005&&i<1200){
-  i++; no++; const interest=bal*r, opening=bal;
-  const last=(n!=null&&i>=n)||bal+interest<=E;
-  const pay=last?Math.ceil(bal+interest):E;
-  const principal=Math.min(bal,Math.max(0,pay-interest));
-  bal=Math.max(0,bal-principal); if(bal<0.005)bal=0;
-  rows.push({no,date:addMonths(start,no),opening,emi:pay,principal,interest,closing:bal});
- }
- return {rows,emi:E,term:rows.length,morInterest,totalInterest:rows.reduce((a,x)=>a+x.interest,0),totalPay:rows.reduce((a,x)=>a+x.emi,0)};
-}
 function runHomeEmi(){
  const out=document.getElementById('hResult');
  try{
   const P=val('hAmount'), annual=val('hRate'), t=val('hTenure'), unit=document.getElementById('hUnit').value;
   const N=t==null?0:Math.round(unit==='years'?t*12:t), M=Math.max(0,Math.round(val('hMor')||0));
   const morType=document.getElementById('hMorType').value, method=document.getElementById('hMethod').value;
+  const actual=document.getElementById('hBasis').value==='actual';
   const start=document.getElementById('hStart').value||todayISO();
   if(P===null||P<=0)throw Error('Enter the loan amount.');
   if(annual===null||annual<0)throw Error('Enter the interest rate.');
   if(N<1)throw Error('Enter the total period.');
   if(M>=N)throw Error('Moratorium must be shorter than the total period.');
-  const r=annual/1200, emiFor=(B,n)=>Math.ceil(r===0?B/n:B*r/(1-Math.pow(1+r,-n)));
-  const E0=emiFor(P,N), base=buildHomeRows(P,r,0,morType,E0,N,start);
-  const scen={base,P,annual,start,M,N,morType,method};
-  let html='';
+  const ef=(B,n,Mm)=>emiFor(B,n,{annual,start,Mm,actual});
+  const mk=(m,E,n)=>amortize({P,annual,M:m,morType,actual,start,E,n});
+  const E0=ef(P,N,0), base=mk(0,E0,N);
+  if(!base)throw Error('Could not build the schedule. Check the inputs.');
+  const scen={base,P,annual,start,M,N,morType,actual,method};
   if(M>0){
-   const B=morType==='capitalized'?P*Math.pow(1+r,M):P;
-   scen.A=buildHomeRows(P,r,M,morType,emiFor(B,N-M),N-M,start);
-   scen.B=buildHomeRows(P,r,M,morType,emiFor(B,N),N,start);
-   scen.C=buildHomeRows(P,r,M,morType,E0,null,start);
+   const B=runMoratorium(P,annual,M,morType,actual,start).bal;
+   scen.A=mk(M,ef(B,N-M,M),N-M); scen.B=mk(M,ef(B,N,M),N); scen.C=mk(M,E0,null);
    scen.sel=scen[method];
   }
   window.homeScen=scen;
   const sel=scen.sel;
-  html+='<div class="hcards"><div class="metric"><span>EMI without moratorium</span><b>₹'+moneyR(base.emi)+'</b></div>'+
-   (M>0?'<div class="metric hi"><span>EMI with moratorium</span><b>'+(sel?'₹'+moneyR(sel.emi):'Not feasible')+'</b></div>':'<div class="metric"><span>Total interest</span><b>₹'+moneyR(base.totalInterest)+'</b></div>')+'</div>';
-  const cols=M>0?[['No Mor.',base,''],['A',scen.A,'A'],['B',scen.B,'B'],['C',scen.C,'C']]:[['EMI',base,'']];
-  const cell=(c,f,k)=>{const v=c[1];return '<td class="'+(M>0&&c[2]===method?'sel':'')+'">'+(v?f(v):'—')+'</td>'};
-  const head='<tr><th>₹</th>'+cols.map(c=>'<th class="'+(M>0&&c[2]===method?'sel':'')+'">'+c[0]+'</th>').join('')+'</tr>';
-  const line=(label,f)=>'<tr><td>'+label+'</td>'+cols.map(c=>cell(c,f)).join('')+'</tr>';
-  html+='<div class="table-wrap" style="max-height:none"><table class="cmp">'+head+
-   line('EMI',v=>moneyR(v.emi))+
-   line('Term (mths)',v=>v.term)+
-   (M>0?line(morType==='capitalized'?'Mor. interest (added)':'Mor. interest (paid)',v=>moneyR(v.morInterest)):'')+
-   line('Total interest',v=>moneyR(v.totalInterest))+
-   line('Total payment',v=>moneyR(v.totalPay))+'</table></div>';
+  let html='<div class="hcards"><div class="metric"><span>EMI without moratorium</span><b>₹'+moneyR(base.emi)+'</b></div>'+
+   (M>0?'<div class="metric hi"><span>EMI with moratorium</span><b>'+(sel?'₹'+moneyR(sel.emi):'Not feasible')+'</b></div>'
+       :'<div class="metric hi"><span>Total interest</span><b>₹'+moneyR(base.totalInterest)+'</b></div>')+'</div>';
+  const cols=M>0?[['No Mor.',base,''],['A',scen.A,'A'],['B',scen.B,'B'],['C',scen.C,'C']]:[['Normal',base,'']];
+  const isSel=c=>M>0&&c[2]===method?'sel':'';
+  const line=(label,f)=>'<tr><td>'+label+'</td>'+cols.map(c=>'<td class="'+isSel(c)+'">'+(c[1]?f(c[1]):'—')+'</td>').join('')+'</tr>';
+  html+='<div class="table-wrap" style="max-height:none"><table class="cmp"><thead><tr><th>₹</th>'+cols.map(c=>'<th class="'+isSel(c)+'">'+c[0]+'</th>').join('')+'</tr></thead><tbody>'+
+   line('EMI',v=>moneyR(v.emi))+line('Term (mths)',v=>v.term)+
+   (M>0?line(morType==='paid'?'Mor. interest (paid)':'Mor. interest (added)',v=>moneyR(v.morInterest)):'')+
+   line('Total interest',v=>moneyR(v.totalInterest))+line('Total payment',v=>moneyR(v.totalPay))+'</tbody></table></div>';
+  let notes='';
   if(M>0){
-   html+='<p class="small" style="margin:6px 0 0"><b>A</b> Higher EMI, same term · <b>B</b> Higher EMI, extended term (same no. of instalments, moratorium added on top) · <b>C</b> Same EMI as without moratorium, extended term.'+(morType==='paid'?' With interest paid monthly, B and C coincide.':'')+(!scen.C?' <span class="danger-text">C is not feasible: the EMI does not cover the interest.</span>':'')+'</p>';
+   notes+='<b>A</b> Higher EMI, same term · <b>B</b> Higher EMI, extended term (same no. of instalments, moratorium added on top) · <b>C</b> Same EMI as without moratorium, extended term.<br><b>Moratorium:</b> '+MOR_TEXT[morType]+(morType==='paid'?' B and C coincide.':'');
+   if(!scen.C)notes+=' <span class="danger-text">C is not feasible: the EMI does not cover the interest.</span>';
   }
-  html+='<div class="actions" style="margin-top:8px"><button class="btn primary" onclick="openHomeSchedule(\''+(M>0?'sel':'base')+'\')">View Schedule'+(M>0?' (with moratorium)':'')+'</button>'+(M>0?'<button class="btn" onclick="openHomeSchedule(\'base\')">Schedule (without)</button>':'')+'</div>';
+  if(actual)notes+=(notes?'<br>':'')+'<b>Day-count:</b> interest uses actual days in each month ÷ 365; the EMI is set so the loan clears within the term.';
+  if(notes)html+='<div class="notebox">'+notes+'</div>';
+  html+='<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="openHomeSchedule(\''+(M>0?'sel':'base')+'\')">View Schedule'+(M>0?' (with moratorium)':'')+'</button>'+(M>0?'<button class="btn" onclick="openHomeSchedule(\'base\')">Schedule (without)</button>':'')+'</div>';
   out.innerHTML=html;
   out.scrollIntoView({behavior:'smooth',block:'nearest'});
  }catch(err){out.innerHTML='<p class="danger-text">'+err.message+'</p>'}
 }
 function openHomeSchedule(which){
  const sc=window.homeScen; if(!sc||!sc[which])return alert('This scenario is not feasible.');
- const s=sc[which];
- loan={principal:sc.P,emi:s.emi,annualRate:sc.annual,months:s.term,numPeriods:s.rows.length,startDate:sc.start,frequency:'monthly',repaymentType:'emi',emiLabel:which==='sel'?'EMI (after moratorium)':'EMI'};
+ const s=sc[which], withMor=which==='sel';
+ loan={principal:sc.P,emi:s.emi,annualRate:sc.annual,months:s.term,numPeriods:s.n,startDate:sc.start,frequency:'monthly',repaymentType:'emi',emiLabel:withMor?'EMI (after moratorium)':'EMI',morMonths:withMor?sc.M:0,morType:sc.morType,actual:sc.actual};
  schedule=s.rows; renderSchedule(); showPage('schedule');
 }
 function clearHome(){
  ['hAmount','hRate','hTenure','hMor'].forEach(id=>document.getElementById(id).value='');
- document.getElementById('hUnit').value='years'; document.getElementById('hMorType').value='capitalized'; document.getElementById('hMethod').value='A';
+ document.getElementById('hUnit').value='years'; document.getElementById('hMorType').value='capitalized'; document.getElementById('hMethod').value='A'; document.getElementById('hBasis').value='monthly';
  document.getElementById('hStart').value=todayISO();
  document.getElementById('hAmountWords').textContent=''; document.getElementById('hResult').innerHTML=''; window.homeScen=null;
 }
+function morMetric(){
+ if(!(loan.morMonths>0))return '';
+ return '<div class="metric">Moratorium Interest<b>'+money(schedule.filter(x=>x.moratorium).reduce((a,x)=>a+x.interest,0))+'</b></div>';
+}
+function loanNote(){
+ const p=[];
+ if(loan.morMonths>0)p.push('Moratorium: '+loan.morMonths+' months ('+(MOR_SHORT[loan.morType]||'')+'); shaded rows in the schedule');
+ if(loan.actual)p.push('Interest on actual days ÷ 365');
+ return p.length?'<p class="small" style="margin:8px 0 0">'+p.join(' · ')+'.</p>':'';
+}
+
 
 /* ===================== Amount-in-words ===================== */
 function indianWords(n){
@@ -572,39 +654,38 @@ function commonInputs(){
 /* ---- 1. Normal EMI: solve any 1 of Principal / EMI / Rate / Tenure ---- */
 function solveRate(P,E,n,ppy){let lo=0,hi=1;for(let i=0;i<100;i++){let r=(lo+hi)/2;let x=P*r/(1-Math.pow(1+r,-n));if(x<E)lo=r;else hi=r}let annual=(lo+hi)/2*ppy*100;if(!isFinite(annual)||annual>1000)throw Error('Could not solve interest rate.');return annual}
 function solveTenure(P,E,r){if(E<=P*r)throw Error('EMI must be greater than the periodic interest to solve tenure.');if(r===0)return Math.ceil(P/E);return Math.ceil(-Math.log(1-P*r/E)/Math.log(1+r))}
+function solveRateMor(P,E,n,ppy,growth){
+ let lo=0,hi=1000;
+ for(let i=0;i<100;i++){const a=(lo+hi)/2,r=a/100/ppy,B=P*growth(a);const x=r===0?B/n:B*r/(1-Math.pow(1+r,-n));if(x<E)lo=a;else hi=a}
+ const a=(lo+hi)/2; if(!isFinite(a)||a>=999)throw Error('Could not solve interest rate.'); return a;
+}
 function calcNormalEmi(){
  let p=val('principal'), e=val('emi'), annual=val('rate'), t=val('tenure'), unit=document.getElementById('tenureUnit').value;
  const freq=document.getElementById('frequency').value, ppy=periodsPerYear(freq), mpp=12/ppy;
  const start=document.getElementById('startDate').value||todayISO();
+ const M=Math.max(0,Math.round(val('mor')||0)), morType=document.getElementById('morType').value, actual=document.getElementById('dayBasis').value==='actual';
  let totalMonths=t==null?null:(unit==='years'?Math.round(t*12):Math.round(t));
  const count=[p,e,annual,t].filter(x=>x!==null).length;
  if(count!==3)throw Error('Enter exactly 3 of Principal, EMI, Interest Rate and Tenure.');
- let n=totalMonths==null?null:Math.max(1,Math.round(totalMonths/mpp));
+ if(totalMonths!==null&&totalMonths<=M)throw Error('Tenure must be longer than the moratorium period.');
+ let n=totalMonths==null?null:Math.max(1,Math.round((totalMonths-M)/mpp));
  let r=annual==null?null:annual/100/ppy;
+ const growth=a=>runMoratorium(1,a,M,morType,actual,start).bal;
  if(p===null){
-  if(r===0)p=e*n; else p=e*(1-Math.pow(1+r,-n))/r;
+  const B=r===0?e*n:e*(1-Math.pow(1+r,-n))/r; p=B/growth(annual);
   setMoneyValue('principal',p); updateAmountWords('principal','principalWords');
  }else if(e===null){
-  if(r===0)e=p/n; else e=p*r/(1-Math.pow(1+r,-n));
+  const B=p*growth(annual); e=actual?emiFor(B,n,{annual,start,Mm:M,mpp,actual}):(r===0?B/n:B*r/(1-Math.pow(1+r,-n)));
   setMoneyValue('emi',e); updateAmountWords('emi','emiWords');
  }else if(annual===null){
-  annual=solveRate(p,e,n,ppy); document.getElementById('rate').value=annual.toFixed(6); r=annual/100/ppy;
+  annual=solveRateMor(p,e,n,ppy,growth); document.getElementById('rate').value=annual.toFixed(6); r=annual/100/ppy;
  }else if(totalMonths===null){
-  n=solveTenure(p,e,r); totalMonths=n*mpp;
+  n=solveTenure(p*growth(annual),e,r); totalMonths=M+n*mpp;
   document.getElementById('tenure').value=totalMonths; document.getElementById('tenureUnit').value='months';
  }
- const rows=[]; let balance=p;
- for(let i=1;i<=n+3&&balance>0.005;i++){
-  const date=addMonths(start,i*mpp);
-  const interest=balance*r;
-  const isLast=(balance-Math.max(0,e-interest)<=0.5)||i>=n;
-  const actualPayment=isLast?Math.ceil(balance+interest):Math.ceil(e);
-  const principal=Math.min(balance,Math.max(0,actualPayment-interest));
-  balance-=principal;
-  rows.push({no:i,date,opening:balance+principal,emi:Math.ceil(principal+interest),principal,interest,closing:Math.max(0,balance)});
-  if(i>2000)break;
- }
- finalize({principal:p,emi:e,annualRate:annual,months:totalMonths,numPeriods:n,startDate:start,frequency:freq,repaymentType:'emi',emiLabel:'EMI'},rows);
+ const res=amortize({P:p,annual,M,morType,actual,start,E:e,n,mpp});
+ if(!res)throw Error('This EMI is too low to repay the loan: it does not cover the interest.');
+ finalize({principal:p,emi:e,annualRate:annual,months:totalMonths,numPeriods:res.n,startDate:start,frequency:freq,repaymentType:'emi',emiLabel:'EMI',morMonths:M,morType,actual},res.rows);
 }
 
 /* ---- 2. Principal + Interest (equal principal, declining total) ---- */
@@ -769,14 +850,14 @@ function calcSeasonal(){
 function renderCalcResult(){
  const totalI=schedule.reduce((a,x)=>a+x.interest,0), totalP=schedule.reduce((a,x)=>a+x.emi,0);
  const label=loan.emiLabel||'EMI';
- document.getElementById('calcResult').innerHTML=`<div class="results"><div class="metric">Principal<b>${money(loan.principal)}</b></div><div class="metric">${label}<b>${money(loan.emi)}</b></div><div class="metric">Rate<b>${loan.annualRate.toFixed(4)}%</b></div><div class="metric">Tenure<b>${loan.months} months</b></div><div class="metric">Total Interest<b>${money(totalI)}</b></div><div class="metric">Total Repayment<b>${money(totalP)}</b></div></div>`;
+ document.getElementById('calcResult').innerHTML=`<div class="results"><div class="metric">Principal<b>${money(loan.principal)}</b></div><div class="metric">${label}<b>${money(loan.emi)}</b></div><div class="metric">Rate<b>${loan.annualRate.toFixed(4)}%</b></div><div class="metric">Tenure<b>${loan.months} months</b></div><div class="metric">Total Interest<b>${money(totalI)}</b></div><div class="metric">Total Repayment<b>${money(totalP)}</b></div>${morMetric()}</div>${loanNote()}`;
 }
 function renderSchedule(){
  const totalI=schedule.reduce((a,x)=>a+x.interest,0), totalP=schedule.reduce((a,x)=>a+x.emi,0);
  const label=loan.emiLabel||'EMI';
- document.getElementById('scheduleSummary').innerHTML=`<div class="results"><div class="metric">Principal<b>${money(loan.principal)}</b></div><div class="metric">${label}<b>${money(loan.emi)}</b></div><div class="metric">Rate<b>${loan.annualRate.toFixed(4)}%</b></div><div class="metric">Tenure<b>${loan.months} months</b></div><div class="metric">Total Interest<b>${money(totalI)}</b></div><div class="metric">Total Repayment<b>${money(totalP)}</b></div></div>`;
+ document.getElementById('scheduleSummary').innerHTML=`<div class="results"><div class="metric">Principal<b>${money(loan.principal)}</b></div><div class="metric">${label}<b>${money(loan.emi)}</b></div><div class="metric">Rate<b>${loan.annualRate.toFixed(4)}%</b></div><div class="metric">Tenure<b>${loan.months} months</b></div><div class="metric">Total Interest<b>${money(totalI)}</b></div><div class="metric">Total Repayment<b>${money(totalP)}</b></div>${morMetric()}</div>${loanNote()}`;
  let h='<thead><tr><th>No.</th><th>Due Date</th><th>Opening Balance</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Closing Balance</th></tr></thead><tbody>';
- schedule.forEach(x=>h+=`<tr><td>${x.no}</td><td>${fmtDate(x.date)}</td><td>${money(x.opening)}</td><td>${money(x.emi)}</td><td>${money(x.principal)}</td><td>${money(x.interest)}</td><td>${money(x.closing)}</td></tr>`);
+ schedule.forEach(x=>h+=`<tr class="${x.moratorium?'moratorium-row':''}"><td>${x.no}</td><td>${fmtDate(x.date)}</td><td>${money(x.opening)}</td><td>${money(x.emi)}</td><td>${money(x.principal)}</td><td>${money(x.interest)}</td><td>${money(x.closing)}</td></tr>`);
  document.getElementById('scheduleTable').innerHTML=h+'</tbody>';
 }
 
@@ -1173,6 +1254,7 @@ function clearCalculator(){
  document.getElementById('tenure').value=''; document.getElementById('stepInterval').value=12;
  document.querySelectorAll('.smonth').forEach(c=>c.checked=false);
  document.getElementById('startDate').value=todayISO();
+ ['mor'].forEach(id=>document.getElementById(id).value=''); document.getElementById('morType').value='capitalized'; document.getElementById('dayBasis').value='monthly';
  document.getElementById('repaymentType').value='emi'; onRepaymentTypeChange();
  document.getElementById('goScheduleBtn').style.display='none';
  ['principalWords','emiWords'].forEach(id=>document.getElementById(id).textContent='');
